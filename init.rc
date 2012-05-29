@@ -1,0 +1,4 @@
+#append these lines at the end of init.rc file in root of the android fs
+service myscript /data/aakash.sh
+    oneshot
+
