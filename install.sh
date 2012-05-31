@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #connect to device
-adb connect $1
+
+#adb connect $1
 
 #pushing new default.prop for rooting purpose
 adb push default.prop /
@@ -9,6 +10,7 @@ echo "STEP 1/7 : pushed default.prop to / for rooting purpose"
 
 #pushing aakash.sh for chroot, mounting, and apache2
 adb push aakash.sh /data/local/
+adb shell chmod 777 /data/local/aakash.sh
 echo "STEP 2/7 : pushed aakash.sh to /data/local/"
 sleep 0.2
 
@@ -18,10 +20,10 @@ adb push init.rc /
 echo "STEP 3/7 : pushed init.rc for automatic affect of aakash.sh in future {Success}"
 sleep 0.2
 
-echo "pushing aakash.tar.gz to /data/local/. This might take more than 15 minutes,\
+echo -e "pushing linux.tar.gz to /data/local/. This might take more than 15 minutes,\n
       keep your tablet alive and wifi active"
-adb push aakash.tar.gz /data/local/
-echo "STEP 4/7 : finally successfully pushed the giant, now even more painful step, untaring it..\
+adb push linux.tar.gz /data/local/
+echo "STEP 4/7 : finally successfully pushed the giant, now even more painful step, untaring it..\n
       keep your nerves down, this will again take more than 15 minutes"
 
 adb push tar /data/local/
@@ -29,8 +31,11 @@ echo "STEP 5/7 : sent tar static binary"
 adb shell chmod 777 /data/local/tar
 echo "changed permissions of tar binary to execute"
 
+#adb shell busybox mkdir /data/local/linux
 echo "now untar the aakash.tar.gz to /data/local/linux, again this will take some time (15minutes)"
-adb shell /data/local/tar -xvpzf /data/local/aakash.tar.gz /data/local/linux
+adb shell /data/local/tar -xvpzf /data/local/linux.tar.gz 
+#-C /data/local/linux
+adb install -r *.apk
 echo "STEP 7/7 : all done "
 
 sleep 1
