@@ -32,9 +32,9 @@ busybox mount -t sysfs sysfs $MNT/sys
 #busybox chroot $MNT /bin/bash -c "apache2ctl graceful"
 
 busybox chroot $MNT /bin/bash -c "rm /dev/null"
-busybox  chroot  $MNT /bin/sh -c "rm /var/run/apache2/*"
-busybox  chroot  $MNT /bin/sh -c "service apache2 stop"
-busybox  chroot  $MNT /bin/sh -c "service apache2 start"
+busybox chroot  $MNT /bin/sh -c "rm /var/run/apache2/*"
+busybox chroot  $MNT /bin/sh -c "service apache2 stop"
+busybox chroot  $MNT /bin/sh -c "service apache2 start"
 busybox chroot $MNT /bin/bash -c "rm /tmp/.X1-*" 
 #busybox chroot $MNT /bin/bash -c "kill -9 $(pgrep Xvfb)" 
 busybox chroot $MNT /bin/bash -c "nohup Xvfb :1 -screen 0 640x480x24 -ac < /dev/null > Xvfb.out 2> Xvfb.err &"
