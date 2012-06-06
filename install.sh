@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 # ---- global variable ----
 
@@ -11,8 +11,6 @@ declare APK="*.apk"
 declare AAKASH="aakash.sh"
 
 declare DEV_PATH="/data/local/"
-
-declare ADB_DEVICES=0
 
 # -------------------------
 
@@ -40,10 +38,9 @@ function sanity_check()
 	exit 0
     elif [ ! -f tar ];
     then
-	echo "binary 'tar: not found"
+	echo "binary 'tar': not found"
 	exit 0
     fi
-
 }
 
 function rooting()
@@ -53,6 +50,7 @@ function rooting()
     adb push default.prop /
     # 
     echo "pushing flag to /"
+    echo "1" > flag
     adb push flag /
     echo "STEP 1/7 : pushed default.prop and  flag to / for rooting"
     echo " "
@@ -110,37 +108,38 @@ function installing()
 
 function connect_device()
 {
-# connect the device
-    if [ "$ARG_COUNT" -ne 1 ];
-    then
-	echo "Usage: $0 <IP-address>"
-	exit 0
-    else 
-	sanity_check    
+    local ADB_DEVICES=0
+    sanity_check    
     # try to connect to device, loop till the device gets connected
-	while [ $ADB_DEVICES -le 2 ]
-	do
-	    adb kill-server
-	    adb start-server
-	    echo "connecting to device at IP: $IP"
-	    adb connect $IP
-	    ADB_DEVICES=$(adb devices | wc -l)
-	done
+    while [ $ADB_DEVICES -le 2 ]
+    do
+	adb kill-server
+	adb start-server
+	echo "connecting to device at IP: $IP"
+	adb connect $IP
+	ADB_DEVICES=$(adb devices | wc -l)
+    done
 
-	FLAG=$(adb shell cat /flag | tr -d '\r')
+    FLAG=$(adb shell cat /flag | tr -d '\r')
     # echo $FLAG
-	ANS=1
-	
-	if [ "$FLAG" == "$ANS" ];
-	then
+    ANS=1
+    
+    if [ "$FLAG" == "$ANS" ];
+    then
         # echo $FLAG
-	    echo "installing"
-    	    installing	
-	else
-    	    echo "rooting"
-	    rooting
-	fi
+	echo "installing"
+    	installing	
+    else
+    	echo "rooting"
+	rooting
     fi
 }
 
-connect_device
+# __init__
+if [ "$ARG_COUNT" -ne 1 ];
+then
+    echo "Usage: $0 <IP-address>"
+    exit 0
+else
+    connect_device
+fi
