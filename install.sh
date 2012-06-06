@@ -22,40 +22,28 @@ function sanity_check()
     echo "checking whether all files are in place..."
     
     # check for $TAR_FIE
-    if [ -f $AAKASH ];
+    if [ ! -f $AAKASH ];
 	then
-	echo "$AAKASH exist"
-    else
 	echo "$AAKASH: not found"
-    fi
-    
-    if [ -f $TAR_FILE ];
+	exit 0
+    elif [ ! -f $TAR_FILE ];
     then
-	echo "$TAR_FILE exist"
-    else
 	echo "$TAR_FILE: not found"
-    fi
-
-    if [ -f default.prop ];
+	exit 0
+    elif [ ! -f default.prop ];
     then
-	echo "default.prop exist"
-    else
 	echo "default.prop: not found"
-    fi
-
-    if [ -f init.rc ];
+	exit 0
+    elif [ ! -f init.rc ];
     then
-	echo "init.rc exist"
-    else
 	echo "init.rc: not found"
+	exit 0
+    elif [ ! -f tar ];
+    then
+	echo "binary 'tar: not found"
+	exit 0
     fi
 
-    if [ -f tar ];
-    then
-	echo "binary 'tar' exist"
-    else
-	echo "binary 'tar: not found"
-    fi
 }
 
 function rooting()
@@ -118,44 +106,41 @@ function installing()
     sleep 5
     adb reboot
     echo "It will not reboot automatically, so turn it on NOW, YES NOW"
-	
 }
 
 function connect_device()
 {
 # connect the device
-if [ "$ARG_COUNT" -ne 1 ];
-then
-    echo "Usage: $0 <IP-address>"
-    exit 0
-else 
-    # try to connect to device, loop till the device gets connected
-    while [ $ADB_DEVICES -le 2 ]
-    do
-	adb kill-server
-	adb start-server
-	echo "connecting to device at IP: $IP"
-	adb connect $IP
-	ADB_DEVICES=$(adb devices | wc -l)
-    done
-
-    FLAG=$(adb shell cat /flag | tr -d '\r')
-    # echo $FLAG
-    ANS=1
-    
-    if [ "$FLAG" == "$ANS" ];
+    if [ "$ARG_COUNT" -ne 1 ];
     then
+	echo "Usage: $0 <IP-address>"
+	exit 0
+    else 
+	sanity_check    
+    # try to connect to device, loop till the device gets connected
+	while [ $ADB_DEVICES -le 2 ]
+	do
+	    adb kill-server
+	    adb start-server
+	    echo "connecting to device at IP: $IP"
+	    adb connect $IP
+	    ADB_DEVICES=$(adb devices | wc -l)
+	done
+
+	FLAG=$(adb shell cat /flag | tr -d '\r')
+    # echo $FLAG
+	ANS=1
+	
+	if [ "$FLAG" == "$ANS" ];
+	then
         # echo $FLAG
-	echo "installing"
-    	installing	
-    else
-    	echo "rooting"
-	rooting
+	    echo "installing"
+    	#installing	
+	else
+    	    echo "rooting"
+	#rooting
+	fi
     fi
-
-fi
-
 }
 
-
-sanity_check
+connect_device
