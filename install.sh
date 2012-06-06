@@ -21,7 +21,7 @@ function sanity_check()
 {
     echo "checking whether all files are in place..."
     
-    # check for $TAR_FIE
+    # check for $TAR_FILE
     if [ ! -f $AAKASH ];
 	then
 	echo "$AAKASH: not found"
@@ -135,10 +135,10 @@ function connect_device()
 	then
         # echo $FLAG
 	    echo "installing"
-    	#installing	
+    	    installing	
 	else
     	    echo "rooting"
-	#rooting
+	    rooting
 	fi
     fi
 }
