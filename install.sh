@@ -14,7 +14,6 @@ declare DEV_PATH="/data/local/"
 
 # -------------------------
 
-
 function sanity_check()
 {
     echo "checking whether all files are in place..."
@@ -52,41 +51,40 @@ function rooting()
     echo "pushing flag to /"
     echo "1" > flag
     adb push flag /
-    echo "STEP 1/7 : pushed default.prop and  flag to / for rooting"
+    echo "STEP 1/7"
     echo " "
-    echo "rebooting...you need to manually power the device and run this script again"
+    echo "TURNING OFF..."
+    echo "PLEASE TURN ON THE DEVICE AND RE-RUN THIS SCRIPT USING THE COMMAND: bash install.sh <IP-Address>"
     echo "Press ctrl+c now"
     adb reboot
 }
 
 function installing()
 {
-	    
     #pushing aakash.sh for chroot, mounting, and apache2
     adb push $AAKASH $DEV_PATH
     adb shell chmod 777 ${DEV_PATH}${AAKASH}
-    echo "STEP 2/7 : pushed $AAKASH to $DEV_PATH"
+    echo "STEP 2/7"
     sleep 0.2
 
     #hoping that device is rooted by default.prop, this modified init.rc has an
     #entry to enable aakash.sh at boot time
     adb push init.rc /
-    echo "STEP 3/7 : pushed init.rc for automatic affect of aakash.sh in future {Success}"
+    echo "STEP 3/7"
     sleep 0.2
 
-    echo -e "pushing linux.tar.gz to $DEV_PATH. This might take more than 15 minutes,\n
-      keep your tablet alive and wifi active"
+    echo "Copying tarball... this might take more than 15 minutes"
     adb push $TAR_FILE $DEV_PATH
-    echo "STEP 4/7 : finally successfully pushed the giant, now even more painful step,"
-    echo "untaring it.. keep your nerves down, this will again take more than 15 minutes"
+    echo "STEP 4/7"
     
+    # push binary tar, and change the permissions
     adb push tar $DEV_PATH
-    echo "STEP 5/7 : sent tar static binary"
     adb shell chmod 777 ${DEV_PATH}tar
-    echo "changed permissions of tar binary to execute"
-    
-    echo "now untar the $TAR_FILE to $DEV_PATH, again this will take some time (15minutes)"
+    echo "STEP 5/7"    
+
+    echo "untar the tarball, again this will take some time (15minutes)"
     adb shell ${DEV_PATH}tar -xvpzf ${DEV_PATH}${TAR_FILE} -C $DEV_PATH
+    echo "STEP 6/7"
 
     # remove previous installed apk if any
     adb uninstall $UNINSTALL_APK
@@ -99,11 +97,11 @@ function installing()
     adb shell rm /flag
     
     sleep 1
-    echo "if you are here, that means everything went well."
-    echo "THE SYSTEM WILL REBOOT IN 5 SECONDS, HIT CTRL+c to cancel"
+    echo "THE SYSTEM WILL SHUTDOWN AUTOMATICALLY NOW"
+    echo "PLEASE TURN ON THE DEVICE MANUALLY"
+    echo "HIT CTRL+c now"
     sleep 5
     adb reboot
-    echo "It will not reboot automatically, so turn it on NOW, YES NOW"
 }
 
 function connect_device()
@@ -130,7 +128,6 @@ function connect_device()
 	echo "installing"
     	installing	
     else
-    	echo "rooting"
 	rooting
     fi
 }
@@ -143,3 +140,4 @@ then
 else
     connect_device
 fi
+
