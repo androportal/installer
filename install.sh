@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # ---- global variable ----
-
 declare ARG_COUNT=$#
 declare IP=$1
 
@@ -12,15 +11,16 @@ declare AAKASH="aakash.sh"
 
 declare DEV_PATH="/data/local/"
 
+declare MD5GEN=$(md5sum $TAR_FILE | cut -d " " -f 1 -)
+declare MD5FILE=$(cat MD5CHECK | cut -d " " -f 1 -)
 # -------------------------
 
 function sanity_check()
 {
     echo "checking whether all files are in place..."
     
-    # check for $TAR_FILE
     if [ ! -f $AAKASH ];
-	then
+    then
 	echo "$AAKASH: not found"
 	exit 0
     elif [ ! -f $TAR_FILE ];
@@ -39,12 +39,18 @@ function sanity_check()
     then
 	echo "binary 'tar': not found"
 	exit 0
+    elif [ "$MD5GEN" != "$MD5FILE" ];
+    then
+	echo "ERROR: MD5 checksum FAILED!, may be you are using a wrong tarball"
+	exit 0
     fi
 }
 
 function rooting()
 {
-    #pushing new default.prop for rooting purpose
+    # backup default.prop
+    adb pull /default.prop default.prop.orig
+    # pushing new default.prop for rooting purpose
     echo "pushing default.prop"
     adb push default.prop /
     # 
@@ -67,8 +73,7 @@ function installing()
     echo "STEP 2/7"
     sleep 0.2
 
-    #hoping that device is rooted by default.prop, this modified init.rc has an
-    #entry to enable aakash.sh at boot time
+    # init.rc
     adb push init.rc /
     echo "STEP 3/7"
     sleep 0.2
@@ -93,8 +98,13 @@ function installing()
     adb install -r $APK
     echo "STEP 7/7 : all done "
 
-    echo "Removing flag"
+    echo "cleaning up ..."
     adb shell rm /flag
+    adb shell rm ${DEV_PATH}${TAR_FILE}
+
+    # unrooting
+    adb push default.prop.orig /default.prop
+    rm -f default.prop.orig
     
     sleep 1
     echo "THE SYSTEM WILL SHUTDOWN AUTOMATICALLY NOW"
