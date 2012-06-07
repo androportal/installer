@@ -10,6 +10,7 @@ Prerequisite
 Installation
 ------------
 Make sure following file are in the same directory from where you run 'install.sh' file
+
 - install.sh
 - default.prop
 - aakash.sh
