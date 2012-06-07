@@ -1,13 +1,15 @@
-USING ``install.sh``
+USING `install.sh`
 --------------------
 Please read this document till the end before to proceed for actual installation
 
-``Prerequisite``
+Prerequisite
+------------
 1) Make sure your device is connected to wifi network.
 2) Note down the IP-address.
 3) The best condition would be, give a static IP-address to the device.
 
-``Installation``
+Installation
+------------
 Make sure following file are in the same directory from where you run 'install.sh' file
 1) install.sh
 2) default.prop
@@ -20,10 +22,11 @@ Make sure following file are in the same directory from where you run 'install.s
 Open the terminal and change to the directory where all the above files exist using
 
 now type::
-bash install.sh <IP-address>
+
+``bash install.sh <IP-address>``
 
 for example::
-bash install.sh 10.42.0.13
+``bash install.sh 10.42.0.13``
 
 and follow the instructions which appears on the terminal.
 
