@@ -19,15 +19,14 @@ Make sure following file are in the same directory from where you run 'install.s
 - a binary file 'tar'
 - all your apk's 
 
-Open the terminal and change to the directory where all the above files exist using
 
-now type::
+Open the terminal and change to the directory where all the above files exist and now type::
 
-`bash install.sh <IP-address>`
+   bash install.sh <IP-address>
 
 for example::
 
-`bash install.sh 10.42.0.13`
+   bash install.sh 10.42.0.13
 
 and follow the instructions which appears on the terminal.
 
