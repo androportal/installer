@@ -23,11 +23,11 @@ Open the terminal and change to the directory where all the above files exist us
 
 now type::
 
-bash install.sh <IP-address>
+``bash install.sh <IP-address>``
 
 for example::
 
-bash install.sh 10.42.0.13
+``bash install.sh 10.42.0.13``
 
 and follow the instructions which appears on the terminal.
 
