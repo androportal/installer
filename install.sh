@@ -175,7 +175,7 @@ function valid_ip()
 	echo "invalid IP-Address: $IP"
 	exit 0
     else
-	connect_dev $IP & 
+	connect_dev $IP > log-${IP} & 
     fi
 }
 
