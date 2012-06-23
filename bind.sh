@@ -35,6 +35,8 @@ do
 	    mkdir -p ${WWW}/scilab/image   
 	fi
 
+    sleep 0.5
+
 	busybox mount -o bind ${SDCARD}/c/code ${WWW}/c/code
 	busybox mount -o bind ${SDCARD}/cpp/code ${WWW}/cpp/code
 	busybox mount -o bind ${SDCARD}/python/code ${WWW}/python/code
@@ -44,8 +46,9 @@ do
 	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
 
 	FLAG=0
-	exit 0 
+    exit 0 
     done
+sleep 5 
 done
 
 exit 0
