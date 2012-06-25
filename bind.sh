@@ -44,6 +44,7 @@ do
 	busybox mount -o bind ${SDCARD}/scilab/image ${WWW}/scilab/image
 
 	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
+	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/sb_manage.py &>'/dev/null'&"
 
 	FLAG=0
     exit 0 

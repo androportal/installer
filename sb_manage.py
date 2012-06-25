@@ -15,17 +15,18 @@ Add code here to check whether .example.option is available or not.
 previousTimeStamp = [1.0]
 system('rm /tmp/cperror /tmp/cerror /tmp/*bin /tmp/1.py')
 
+commonCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:'
+allPaths = ['/tmp/cbin', '/tmp/cerror', '/tmp/cpbin', '/tmp/cperror', '/tmp/1.py']
+
 def returnCommand():
-    allPaths = ['/tmp/cbin', '/tmp/cerror', '/tmp/cpbin', '/tmp/cperror', '/tmp/1.py']
-    commonCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:'
     for checkPath in allPaths:
         sleep(0.5)
         if(path.isfile(checkPath)):
-            if(checkPath == allPaths[0] or checkPath == allPaths[2]):
+            if((checkPath == allPaths[0]) or (checkPath == allPaths[2])):
                 command = commonCommand + '%s' %(checkPath)
                 #used -w option in c and cpp to avoid warnings
                 break
-            elif(checkPath == allPaths[1] or checkPath == allPaths[3]):
+            elif(((checkPath == allPaths[1] or checkPath == allPaths[3])) and (path.getsize(checkPath))):
                 command = commonCommand + "'cat %s'" %(checkPath)
                 break 
             elif(checkPath == allPaths[4]):
@@ -33,19 +34,20 @@ def returnCommand():
                 #Python executes in any condition, back, forward
                 break
         else:
-            command = commonCommand + 'true'
-            checkPath = None
+            command = ''
+            checkPath = '/root/sb_manage.py'
     return command,checkPath
 
 def executeCommand():
     SBcommand, pathAvailable = returnCommand()
-    if (previousTimeStamp[0] == 1.0) and (pathAvailable == None):
+    if (previousTimeStamp[0] == 1.0) and (pathAvailable not in allPaths):
         system("killall -s 9 shellinaboxd")
-        Popen(SBcommand,shell=True, stdout=PIPE)
+        blankCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:true'
+        Popen(blankCommand,shell=True, stdout=PIPE)
         print "I am in first time execution",previousTimeStamp
         sleep(0.5)
 
-    elif(previousTimeStamp[0] != path.getmtime(pathAvailable)):
+    elif((previousTimeStamp[0] != path.getmtime(pathAvailable)) and (pathAvailable in allPaths)):
         system("killall -s 9 shellinaboxd")
         Popen(SBcommand,shell=True, stdout=PIPE)
         print SBcommand, previousTimeStamp
