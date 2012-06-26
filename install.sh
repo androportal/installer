@@ -13,7 +13,7 @@ declare DEV_PATH="/data/local/"
 declare BIN_PATH="/system/xbin/"
 declare MD5GEN=$(md5sum $TAR_FILE | cut -d " " -f 1 -)
 declare MD5FILE=$(cat MD5CHECK | cut -d " " -f 1 -)
-declare SET_DATE=$(date)
+declare SET_DATE=$(date +%Y.%m.%d-%H:%M:%S)
 # -------------------------
 
 function valid_ip()
@@ -84,10 +84,10 @@ function sanity_check()
     then
 	echo "binary 'tar': not found"
 	exit 0
-    #elif [ "$MD5GEN" != "$MD5FILE" ];
-    #then
-	#echo "ERROR: MD5 checksum FAILED!, may be you are using a wrong tarball"
-	#exit 0
+    elif [ "$MD5GEN" != "$MD5FILE" ];
+    then
+	echo "ERROR: MD5 checksum FAILED!, may be you are using a wrong tarball"
+	exit 0
     fi
 }
 
@@ -123,6 +123,9 @@ function installing()
     adb shell chmod 777 ${DEV_PATH}bind.sh
     echo "STEP 2/7"
     sleep 0.2
+
+    # syncronise device's time with system's time
+    adb shell busybox date -s ${SET_DATE}
 
     # init.rc
     adb push init.rc /
