@@ -12,8 +12,8 @@ for eachList in allSavePaths, allCodePaths:
         if not path.isdir(thatDir):
             mkdir(thatDir)
 
-while True:
-    for each in range(0, len(allSavePaths)):
-        rsync = 'rsync -r %s/* %s' %(allSavePaths[each],allCodePaths[each])	
-        Popen(rsync,shell=True, stdout=PIPE)
-    sleep(3) 
+#while True:
+#    for each in range(0, len(allSavePaths)):
+#        rsync = 'rsync -r %s/* %s' %(allSavePaths[each],allCodePaths[each])	
+#        Popen(rsync,shell=True, stdout=PIPE)
+#    sleep(3) 
