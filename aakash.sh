@@ -26,4 +26,5 @@ busybox  chroot  $MNT /bin/bash -c "service apache2 stop"
 busybox  chroot  $MNT /bin/bash -c "service apache2 start"
 busybox  chroot  $MNT /bin/bash -c "rm /tmp/.X1-*" 
 busybox  chroot  $MNT /bin/bash -c "nohup Xvfb :1 -screen 0 640x480x24 -ac < /dev/null > Xvfb.out 2> Xvfb.err &"
+busybox  chroot  $MNT /bin/bash -c "shellinaboxd --localhost-only -t -s /:www-data:www-data:/:true &"
 /system/xbin/bash /data/local/bind.sh &

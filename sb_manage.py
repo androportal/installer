@@ -16,9 +16,10 @@ system('rm /tmp/cperror /tmp/cerror /tmp/*bin /tmp/1.py')
 commonCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:'
 allPaths = ['/tmp/cbin', '/tmp/cerror', '/tmp/cpbin', '/tmp/cperror', '/tmp/1.py']
 
+
 def returnCommand():
     for checkPath in allPaths:
-        sleep(1)
+        sleep(0.2)
         if(path.isfile(checkPath)):
             if((checkPath == allPaths[0]) or (checkPath == allPaths[2])):
                 command = commonCommand + '%s' %(checkPath)
@@ -44,7 +45,6 @@ def executeCommand():
         blankCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:true'
         Popen(blankCommand,shell=True, stdout=PIPE)
         print "I am in first time execution",previousTimeStamp
-       # sleep(0.5)
 
     elif((previousTimeStamp[0] != path.getmtime(pathAvailable)) and (pathAvailable in allPaths)):
         system("killall -s 9 shellinaboxd")
@@ -53,7 +53,6 @@ def executeCommand():
         system("chown www-data.www-data /var/www/html/flag")
         print SBcommand, previousTimeStamp
         previousTimeStamp[0] = path.getmtime(pathAvailable)
-#        sleep(0.5)
     
 while True:
     executeCommand()

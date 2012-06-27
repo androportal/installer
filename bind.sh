@@ -18,7 +18,8 @@ do
     do
 	
 	if [ ! -d ${SDCARD} ] && [ ! -d ${WWW} ]
-	then                                                                  
+   
+    then                                                                  
 	    mkdir -p ${SDCARD}/c/code                                         
 	    mkdir -p ${WWW}/c/code                                            
 	    
@@ -34,17 +35,14 @@ do
 	    mkdir -p ${SDCARD}/scilab/image
 	    mkdir -p ${WWW}/scilab/image   
 	fi
-
-    sleep 0.5
-
+    sleep 0.1
 	busybox mount -o bind ${SDCARD}/c/code ${WWW}/c/code
 	busybox mount -o bind ${SDCARD}/cpp/code ${WWW}/cpp/code
 	busybox mount -o bind ${SDCARD}/python/code ${WWW}/python/code
 	busybox mount -o bind ${SDCARD}/scilab/code ${WWW}/scilab/code
 	busybox mount -o bind ${SDCARD}/scilab/image ${WWW}/scilab/image
-
-	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
 	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/sb_manage.py &>'/dev/null'&"
+	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
 
 	FLAG=0
     exit 0 
