@@ -35,19 +35,26 @@ do
 	    mkdir -p ${SDCARD}/scilab/image
 	    mkdir -p ${WWW}/scilab/image   
 	fi
-    sleep 0.1
+	sleep 0.2
+
+	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/sb_manage.py &>'/dev/null'&"
 	busybox mount -o bind ${SDCARD}/c/code ${WWW}/c/code
 	busybox mount -o bind ${SDCARD}/cpp/code ${WWW}/cpp/code
 	busybox mount -o bind ${SDCARD}/python/code ${WWW}/python/code
 	busybox mount -o bind ${SDCARD}/scilab/code ${WWW}/scilab/code
 	busybox mount -o bind ${SDCARD}/scilab/image ${WWW}/scilab/image
-	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/sb_manage.py &>'/dev/null'&"
-	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
 
+	# symbolic linking
+	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libg2c.so.0 /usr/lib/libg2c.so.0"
+	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libjavasci.so /usr/lib/libjavasci.so"
+	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libXmu.so.6 /usr/lib/libXmu.so.6"
+	
+	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
+	
 	FLAG=0
-    exit 0 
+	exit 0 
     done
-sleep 5 
+    sleep 5 
 done
 
 exit 0
