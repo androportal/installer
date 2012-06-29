@@ -5,7 +5,7 @@ export PATH=$bin:/usr/bin:/usr/sbin:/bin:$PATH
 export TERM=linux
 export HOME=/root
 export MNT=/data/local/linux
-
+export EG=/data/example
 export SDCARD=/mnt/sdcard/APL
 export WWW=/data/local/linux/var/www/html
 
@@ -44,7 +44,12 @@ do
 	busybox mount -o bind ${SDCARD}/scilab/code ${WWW}/scilab/code
 	busybox mount -o bind ${SDCARD}/scilab/image ${WWW}/scilab/image
 
-	# symbolic linking
+	busybox mount -o bind ${EG}/c ${WWW}/c/exbind
+	busybox mount -o bind ${EG}/cpp ${WWW}/cpp/exbind
+	busybox mount -o bind ${EG}/python ${WWW}/python/exbind
+	busybox mount -o bind ${EG}/scilab ${WWW}/scilab/exbind
+
+    # symbolic linking
 	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libg2c.so.0 /usr/lib/libg2c.so.0"
 	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libjavasci.so /usr/lib/libjavasci.so"
 	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libXmu.so.6 /usr/lib/libXmu.so.6"
@@ -54,7 +59,7 @@ do
 	FLAG=0
 	exit 0 
     done
-    sleep 5 
+    sleep 2 
 done
 
 exit 0
