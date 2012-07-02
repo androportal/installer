@@ -6,7 +6,7 @@ declare IP=$1
 
 declare TAR_FILE="linux.tar.gz"
 declare UNINSTALL_APK="com.aakash.lab"
-declare APK="*.apk"
+declare APK="APL_v2.apk"
 declare AAKASH="aakash.sh"
 
 declare DEV_PATH="/data/local/"
@@ -47,18 +47,20 @@ function sanity_check()
     then
 	echo "$AAKASH: not found"
 	exit 0
+
     elif [ ! -f $TAR_FILE ];
     then
 	echo "$TAR_FILE: not found"
 	exit 0
+
     elif [ ! -f default.prop ];
     then
 	echo "default.prop: not found"
 	exit 0
 
-    elif [ ! -f APL_v2.apk ];
+    elif [ ! -f $APK ];
     then
-	echo "APL_v2.apk: not found"
+	echo "$APK: not found"
 	exit 0
 
     elif [ ! -f rsync ];
@@ -80,10 +82,12 @@ function sanity_check()
     then
 	echo "init.rc: not found"
 	exit 0
+
     elif [ ! -f tar ];
     then
 	echo "binary 'tar': not found"
 	exit 0
+
     elif [ "$MD5GEN" != "$MD5FILE" ];
     then
 	echo "ERROR: MD5 checksum FAILED!, may be you are using a wrong tarball"
@@ -95,12 +99,8 @@ function rooting()
 {
     # backup default.prop
     adb pull /default.prop default.prop.orig
-    # pushing new default.prop for rooting purpose
-
-    echo "pushing flag to /"
-    echo "1" > flag
-    sleep 0.5
-    adb push flag /
+    
+    # pushing new default.prop for rooting
     sleep 0.5
     echo "pushing default.prop"
     adb push default.prop /
@@ -116,7 +116,7 @@ function rooting()
 
 function installing()
 {
-    #pushing aakash.sh for chroot, mounting, and apache2
+    #pushing aakash.sh for chroot, mounting, and apache2 services
     adb push $AAKASH $DEV_PATH
     adb push bind.sh $DEV_PATH
     adb shell chmod 777 ${DEV_PATH}${AAKASH}
@@ -138,11 +138,9 @@ function installing()
     
     # push binary tar, rsync, bash, and change the permissions
     adb push tar $DEV_PATH
-
     adb push bash $BIN_PATH
 
     adb shell chmod 777 ${DEV_PATH}tar
-
     adb shell chmod 777 ${BIN_PATH}bash
     echo "STEP 5/7"    
 
@@ -157,23 +155,21 @@ function installing()
     # remove previous installed apk if any
     adb uninstall $UNINSTALL_APK
     
-    # install all apks available in current working directory
+    # install apk/(all apks) available in current working directory
     adb install -r $APK
     echo "STEP 7/7 : all done "
 
-    # syncronise device's time with system's time
-    adb shell date -s ${SET_DATE}
-
     echo "cleaning up ..."
-    adb shell rm /flag
     adb shell rm ${DEV_PATH}${TAR_FILE}
 
     # unrooting
-    sleep 1
-    adb push default.prop.orig /default.prop
-    sleep 0.2
-    rm -f default.prop.orig
-    rm -f flag
+    if [ -f default.prop.orig ];
+    then
+	sleep 1
+	adb push default.prop.orig /default.prop
+	sleep 0.2
+	rm -f default.prop.orig
+    fi
 
     sleep 1
     echo "THE SYSTEM WILL SHUTDOWN AUTOMATICALLY NOW"
@@ -197,16 +193,15 @@ function connect_device()
 	ADB_DEVICES=$(adb devices | wc -l)
     done
 
-    FLAG_CHECK=$(adb shell cat /flag | tr -d '\r')
-    # echo $FLAG
-    ANS=1
+    FLAG_CHECK=$(adb shell cat /default.prop | grep -i secure | tr -d '\r')
+    ANS="ro.secure=0"
     
     if [ "$FLAG_CHECK" == "$ANS" ];
     then
-        # echo $FLAG
 	echo "installing"
     	installing	
     else
+	echo "rooting"
 	rooting
     fi
 }
