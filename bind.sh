@@ -17,23 +17,27 @@ do
     while [ $(pgrep com.aakash.lab | wc -l) -eq 1 ]
     do
 	
-	if [ ! -d ${SDCARD} ] && [ ! -d ${WWW} ]
+	if [ ! -d ${SDCARD} ] || [ ! -d ${WWW} ] || [ ! -d ${EG} ]
    
     then                                                                  
-	    mkdir -p ${SDCARD}/c/code                                         
-	    mkdir -p ${WWW}/c/code                                            
-	    
-	    mkdir -p ${SDCARD}/cpp/code                                       
-	    mkdir -p ${WWW}/cpp/code                                          
-	    
-	    mkdir -p ${SDCARD}/python/code                                     
-	    mkdir -p ${WWW}/python/code     
-	    
-	    mkdir -p ${SDCARD}/scilab/code
-	    mkdir -p ${WWW}/scilab/code   
-	    
-	    mkdir -p ${SDCARD}/scilab/image
-	    mkdir -p ${WWW}/scilab/image   
+	    busybox mkdir -p ${SDCARD}/c/code                                         
+	    busybox mkdir -p ${WWW}/c/code                                            
+	    busybox mkdir -p ${EG}/c
+
+	    busybox mkdir -p ${SDCARD}/cpp/code                                       
+	    busybox mkdir -p ${WWW}/cpp/code                                          
+	    busybox mkdir -p ${EG}/cpp
+
+	    busybox mkdir -p ${SDCARD}/python/code                                     
+	    busybox mkdir -p ${WWW}/python/code     
+	    busybox mkdir -p ${EG}/python
+
+	    busybox mkdir -p ${SDCARD}/scilab/code
+	    busybox mkdir -p ${WWW}/scilab/code   
+	    busybox mkdir -p ${EG}/scilab
+
+	    busybox mkdir -p ${SDCARD}/scilab/image
+	    busybox mkdir -p ${WWW}/scilab/image   
 	fi
 	sleep 0.2
 
@@ -48,14 +52,18 @@ do
 	busybox mount -o bind ${EG}/cpp ${WWW}/cpp/exbind
 	busybox mount -o bind ${EG}/python ${WWW}/python/exbind
 	busybox mount -o bind ${EG}/scilab ${WWW}/scilab/exbind
-
+    
     # symbolic linking
 	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libg2c.so.0 /usr/lib/libg2c.so.0"
 	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libjavasci.so /usr/lib/libjavasci.so"
 	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libXmu.so.6 /usr/lib/libXmu.so.6"
 	
 	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
-	
+#	busybox  chroot  /data/local/linux /bin/bash -c "touch /var/www/html/c/exbind/.open_file.c && chmod 777 -R /var/www/html/c/exbind/"
+#	busybox  chroot  /data/local/linux /bin/bash -c "touch /var/www/html/cpp/exbind/.open_file.cpp && chmod 777 -R /var/www/html/cpp/exbind/"
+#	busybox  chroot  /data/local/linux /bin/bash -c "touch /var/www/html/python/exbind/.open_file.py && chmod 777 -R /var/www/html/python/exbind/"
+#	busybox  chroot  /data/local/linux /bin/bash -c "touch /var/www/html/scilab/exbind/.open_file.cde && chmod 777 -R /var/www/html/scilab/exbind/"
+    	
 	FLAG=0
 	exit 0 
     done

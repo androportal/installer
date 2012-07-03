@@ -56,10 +56,10 @@ function sanity_check()
 	echo "default.prop: not found"
 	exit 0
 
-    elif [ ! -f APL_v2.apk ];
-    then
-	echo "APL_v2.apk: not found"
-	exit 0
+#    elif [ ! -f APL_v2.apk ];
+ #   then
+#	echo "APL_v2.apk: not found"
+#	exit 0
 
     elif [ ! -f rsync ];
     then
@@ -99,9 +99,9 @@ function rooting()
 
     echo "pushing flag to /"
     echo "1" > flag
-    sleep 0.5
+    sleep 2 
     adb push flag /
-    sleep 0.5
+    sleep 1
     echo "pushing default.prop"
     adb push default.prop /
     sleep 1
@@ -151,7 +151,8 @@ function installing()
 
     adb push rsync ${DEV_PATH}linux/usr/bin/
     adb shell chmod 777 ${DEV_PATH}linux/usr/bin/rsync
-    adb push rsync.py ${DEV_PATH}linux/root/
+    adb push rsync.py ${DEV_PATH}linux/var/www/html/
+    adb push sb_manage.py ${DEV_PATH}linux/var/www/html/
     echo "STEP 6/7"
 
     # remove previous installed apk if any
@@ -165,12 +166,12 @@ function installing()
     adb shell date -s ${SET_DATE}
 
     echo "cleaning up ..."
-    adb shell rm /flag
+   # adb shell rm /flag
     adb shell rm ${DEV_PATH}${TAR_FILE}
 
     # unrooting
     sleep 1
-    adb push default.prop.orig /default.prop
+#    adb push default.prop.orig /default.prop
     sleep 0.2
     rm -f default.prop.orig
     rm -f flag

@@ -13,6 +13,10 @@ busybox  chroot  $MNT /bin/bash -c "mkdir -p /dev/pts"
 busybox  chroot  $MNT /bin/bash -c "chown -R root.root /"
 busybox  chroot  $MNT /bin/bash -c "chown -R www-data.www-data /var/www/html"
 busybox  chroot  $MNT /bin/bash -c "chown -R www-data.www-data /usr/lib/cgi-bin"
+busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/c/exbind/.open_file.c"
+busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/cpp/exbind/.open_file.cpp"
+busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/python/exbind/.open_file.py"
+busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/scilab/exbind/.open_file.cde"
 
 busybox mount -o bind /dev $MNT/dev
 busybox mount -t devpts devpts $MNT/dev/pts

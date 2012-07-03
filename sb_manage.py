@@ -13,7 +13,7 @@ from commands import getstatusoutput
 
 #Default time stamp at boot time
 previousTimeStamp = [1.0]
-system('rm /tmp/cperror /tmp/cerror /tmp/*bin /tmp/1.py')
+system('rm /tmp/cperror /tmp/cerror /tmp/*bin /tmp/1.py /tmp/1.cde')
 
 commonCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:'
 grepCommand   = "tail -1 /var/log/apache2/access.log|rgrep "
@@ -22,7 +22,9 @@ allPaths = ['/tmp/cbin',
             '/tmp/cerror',
             '/tmp/cpbin', 
             '/tmp/cperror',
-            '/tmp/1.py']
+            '/tmp/1.py',
+            '/tmp/1.cde']
+
 
 
 allURLs = ['/html/c/index.html',
@@ -51,7 +53,7 @@ def checkURL():
 
 def returnCommand():
     for checkPath in allPaths:
-        sleep(0.2)
+        sleep(1)
         if(path.isfile(checkPath)):
             if((checkPath == allPaths[0]) or (checkPath == allPaths[2])):
                 command = commonCommand + '%s' %(checkPath)
@@ -64,7 +66,9 @@ def returnCommand():
                 command = commonCommand + "'python %s'" %(checkPath)
                 #Python executes in any condition, back, forward
                 break
-
+            elif(checkPath == allPaths[5]):
+                command = commonCommand + "'/usr/lib/scilab-4.1.1/bin/scilex -nogui -nb -ns -f %s'" %(checkPath)
+                break
         else:
             command = ''
             checkPath = '/root/sb_manage.py'
@@ -72,15 +76,16 @@ def returnCommand():
 
 def executeCommand():
     SBcommand, pathAvailable = returnCommand()
-    print 'executeCommand'
     if (previousTimeStamp[0] == 1.0) and (pathAvailable not in allPaths):
         system("killall -s 9 shellinaboxd")
         blankCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:true'
+#        sleep(0.4)
         Popen(blankCommand,shell=True, stdout=PIPE)
         print "I am in first time execution",previousTimeStamp
         #break
     elif((previousTimeStamp[0] != path.getmtime(pathAvailable)) and (pathAvailable in allPaths)):
         system("killall -s 9 shellinaboxd")
+ #       sleep(0.4)
         Popen(SBcommand,shell=True, stdout=PIPE)
         system("touch /var/www/html/flag")
         system("chown www-data.www-data /var/www/html/flag")
@@ -90,9 +95,9 @@ def executeCommand():
 
 
 while True:
-    print 'before 1'
+ #   print 'before 1'
     executeCommand()
-    print 'after 1 before 2'
-    checkURL()
-    print 'after 2'
+#    print 'after 1 before 2'
+#    checkURL()
+  #  print 'after 2'
 
