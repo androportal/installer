@@ -13,7 +13,7 @@ from commands import getstatusoutput
 
 #Default time stamp at boot time
 previousTimeStamp = [1.0]
-system('rm /tmp/cperror /tmp/cerror /tmp/*bin /tmp/1.py /tmp/1.cde')
+system('rm /tmp/cperror /tmp/cerror /tmp/*bin /tmp/1.py /var/www/html/scilab/tmp/*')
 
 commonCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:'
 grepCommand   = "tail -1 /var/log/apache2/access.log|rgrep "
@@ -23,32 +23,8 @@ allPaths = ['/tmp/cbin',
             '/tmp/cpbin', 
             '/tmp/cperror',
             '/tmp/1.py',
-            '/tmp/1.cde']
-
-
-
-allURLs = ['/html/c/index.html',
-           '/html/cpp/index.html',
-           '/html/python/index.html',
-           '/html/scilab/index.html']
-
-"""
-The function below is used to clear the SB page when user switches from 
-one programming env to other.
-"""
-def checkURL():
-    previousPage = ''
-    sleep(1)
-    SBcommand = commonCommand + 'true'
-    for thisURL in allURLs:
-        ExitStatus = getstatusoutput(grepCommand + thisURL)
-        if ExitStatus[0] is 0 and previousPage is not thisURL:
-            system("killall -s 9 shellinaboxd")
-            Popen(SBcommand,shell=True, stdout=PIPE)
-            print "rum shellinabox for ", thisURL
-            previousPage = thisURL
-            break
-            
+            '/var/www/html/scilab/tmp/1.cde',
+            '/var/www/html/scilab/tmp/plot.cde']
 
 
 def returnCommand():
@@ -64,10 +40,15 @@ def returnCommand():
                 break 
             elif(checkPath == allPaths[4]):
                 command = commonCommand + "'python %s'" %(checkPath)
-                #Python executes in any condition, back, forward
                 break
             elif(checkPath == allPaths[5]):
-                command = commonCommand + "'/usr/lib/scilab-4.1.1/bin/scilex -nogui -nb -ns -f %s'" %(checkPath)
+                system("export DISPLAY=:0")
+                command = commonCommand + "'scilab -nogui -nb -f %s'" %(checkPath)
+                break
+            elif(checkPath == allPaths[6]):
+                system("export DISPLAY=:1")
+                #command = commonCommand + "'scilab -nb -f %s'" %(checkPath)
+                command = 'scilab -nb -f %s' %(checkPath)
                 break
         else:
             command = ''
@@ -87,6 +68,8 @@ def executeCommand():
         system("killall -s 9 shellinaboxd")
  #       sleep(0.4)
         Popen(SBcommand,shell=True, stdout=PIPE)
+#        if pathAvailable is allPaths[6]:
+ #           sleep(3)
         system("touch /var/www/html/flag")
         system("chown www-data.www-data /var/www/html/flag")
         print SBcommand, previousTimeStamp
@@ -95,9 +78,5 @@ def executeCommand():
 
 
 while True:
- #   print 'before 1'
     executeCommand()
-#    print 'after 1 before 2'
-#    checkURL()
-  #  print 'after 2'
 

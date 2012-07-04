@@ -54,15 +54,12 @@ do
 	busybox mount -o bind ${EG}/scilab ${WWW}/scilab/exbind
     
     # symbolic linking
-	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libg2c.so.0 /usr/lib/libg2c.so.0"
-	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libjavasci.so /usr/lib/libjavasci.so"
-	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libXmu.so.6 /usr/lib/libXmu.so.6"
+#	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libg2c.so.0 /usr/lib/libg2c.so.0"
+#	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libjavasci.so /usr/lib/libjavasci.so"
+#	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libXmu.so.6 /usr/lib/libXmu.so.6"
 	
 	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
-#	busybox  chroot  /data/local/linux /bin/bash -c "touch /var/www/html/c/exbind/.open_file.c && chmod 777 -R /var/www/html/c/exbind/"
-#	busybox  chroot  /data/local/linux /bin/bash -c "touch /var/www/html/cpp/exbind/.open_file.cpp && chmod 777 -R /var/www/html/cpp/exbind/"
-#	busybox  chroot  /data/local/linux /bin/bash -c "touch /var/www/html/python/exbind/.open_file.py && chmod 777 -R /var/www/html/python/exbind/"
-#	busybox  chroot  /data/local/linux /bin/bash -c "touch /var/www/html/scilab/exbind/.open_file.cde && chmod 777 -R /var/www/html/scilab/exbind/"
+	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/emptySBpage.py &>'/dev/null'&"
     	
 	FLAG=0
 	exit 0 
