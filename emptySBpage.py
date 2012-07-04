@@ -12,7 +12,7 @@ grepCommand = "tail -1 /var/log/apache2/access.log|rgrep "
 commonCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:'
 previousPage = ''
 while True:
-    sleep(0.2)
+    sleep(0.4)
     SBcommand = commonCommand + 'true'
     for thisURL in allURLs:
         ExitStatus = getstatusoutput(grepCommand + thisURL)

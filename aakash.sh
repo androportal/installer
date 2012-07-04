@@ -11,7 +11,7 @@ busybox mount -t proc proc $MNT/proc
 busybox  chroot  $MNT /bin/bash -c "mkdir /sys"
 busybox  chroot  $MNT /bin/bash -c "mkdir -p /dev/pts"
 busybox  chroot  $MNT /bin/bash -c "chown -R root.root /"
-busybox  chroot  $MNT /bin/bash -c "chown -R www-data.www-data /var/www/html"
+busybox  chroot  $MNT /bin/bash -c "chown -R www-data.www-data /var/www/"
 busybox  chroot  $MNT /bin/bash -c "chown -R www-data.www-data /usr/lib/cgi-bin"
 busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/c/exbind/.open_file.c"
 busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/cpp/exbind/.open_file.cpp"
