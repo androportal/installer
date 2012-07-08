@@ -4,13 +4,28 @@ use CGI;
 use CGI::Carp 'fatalsToBrowser';
 use JSON;
 
-my $scilab="pgrep scilab.cgi|wc -l";
+my $scilabcgi="pgrep scilab.cgi|wc -l";
+open (CMD,"$scilabcgi|");
+     my $returnVal=<CMD>;
+     close CMD;
+if($returnVal > 1)
+{exit 1};
+
+my $scilex="pgrep scilex|wc -l";
 open (CMD,"$scilab|");
      my $returnVal=<CMD>;
      close CMD;
-
 if($returnVal > 1)
 {exit 1};
+
+my $scilab="pgrep scilab|wc -l";
+open (CMD,"$scilab|");
+     my $returnVal=<CMD>;
+     close CMD;
+if($returnVal > 1)
+{exit 1};
+
+
 
 system("killall -s INT python.cgi");
 system("killall -s INT c.cgi");
@@ -22,6 +37,8 @@ system("rm /tmp/pysave/*.py");
 system("rm /tmp/1.cpp /tmp/cpbin /tmp/cperror");
 system("rm /tmp/1.c /tmp/cbin /tmp/cerror /tmp/1.py");
 system("rm /var/www/html/scilab/tmp/*.cde");
+system("rm /var/www/html/scilab/tmp/1.err");
+
 
 
 my $request = new CGI;
@@ -41,9 +58,11 @@ my $results;
 
 if($flag_save==1)
   {system("cp $imagepath /tmp/scisaveimg/$filename.gif");
+   system("rm /var/www/html/scilab/tmp/1.gif");
     exit 1;}
-    system("rm /var/www/html/scilab/tmp/1.gif");
 
+
+system("rm /var/www/html/scilab/tmp/1.gif");
 
 
 if ($graphicsmode)
@@ -52,7 +71,11 @@ else{noguimode();}
 
 sub guimode{
 	$< = 0;
-	open CODE,">$codefilePlot";
+	
+    $ENV{'DISPLAY'}=":1.0";
+    my $cmd="scilab -nb -f $codefilePlot";    
+
+    open CODE,">$codefilePlot";
 	print CODE "mode(-1);\ntry\nscf(0);\n";
 	print CODE $incode;
 	print CODE "\nmode(-1);\nxs2gif(0,\'$imagepath\');\nexit();\ncatch\n[error_message,error_number]	=lasterror(%t);\n";
@@ -62,32 +85,29 @@ sub guimode{
 
 
     print "Content-type: text/html\n\n";
+	open (CMD,"$cmd|");
+	my @data=<CMD>;
+	close CMD;
 	my $error="";
-        my $output="som thing";
+    my $output="som thing";
 	if (-e $errorfile){
 		open (ERROR,$errorfile);
 		my @error=<ERROR>;
 		close ERROR;
 		$error=join("",@error);
-		unlink $errorfile;
 	}
-	
-
-
 
     if($flag_save1==1)
       {open CODE,">$codefilePlot";
 	   print CODE $incode;
        close CODE;
-       system("mv $codefilePlot /tmp/scisave/$filename1.sce");
-            }
+       system("cp $codefilePlot /tmp/scisave/$filename1.cde");
+       exit 1; }
 
-	while(1)
-    {
-    #if(-z "/var/www/html/flag")
-    if(-s $imagepath)
-#write code to check gif and error file instead of flag
-   {     
+while(1)
+{
+    if(-z "/var/www/html/flag"|| -s $imagepath)
+  {      
     my $output=join("",@data);
 	$output =~ s/exit\(\);//g;
 	$output =~ s/-->catch//g;
@@ -97,13 +117,19 @@ sub guimode{
 	$results->{"error"}=$error;
 	my $json=objToJson($results);
 	print $json;
-	system("rm /var/www/html/flag");
-	last;
-   }
-    }
+    system("rm /var/www/html/flag");
+    system("killall -s 9 scilex");
+    system("killall -s 9 scilab");
+    last;
+ }   
+}
+
+
 }
 
 sub noguimode{
+
+    $ENV{'DISPLAY'}=":0.0";
 
 	open CODE,">$codefile";
 	print CODE "mode(-1);\nlines(0);\ntry\nmode(1);\n";
@@ -130,7 +156,8 @@ sub noguimode{
 	        open CODE,">$codefile";
 	        print CODE $incode;
            close CODE;
-            system("cp $codefile /tmp/scisave/$filename1.sce");}
+            system("cp $codefile /tmp/scisave/$filename1.cde");
+            exit 1;}
 
 	while(1)
     {
