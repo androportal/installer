@@ -53,13 +53,9 @@ do
 	busybox mount -o bind ${EG}/python ${WWW}/python/exbind
 	busybox mount -o bind ${EG}/scilab ${WWW}/scilab/exbind
     
-    # symbolic linking
-#	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libg2c.so.0 /usr/lib/libg2c.so.0"
-#	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libjavasci.so /usr/lib/libjavasci.so"
-#	busybox  chroot  /data/local/linux /bin/bash -c "ln -s /usr/lib/scilab-4.1.1/bin/libXmu.so.6 /usr/lib/libXmu.so.6"
-	
 	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/rsync.py &>'/dev/null'&"
 	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/emptySBpage.py &>'/dev/null'&"
+	busybox  chroot  /data/local/linux /bin/bash -c "export DISPLAY=:1"
     	
 	FLAG=0
 	exit 0 
