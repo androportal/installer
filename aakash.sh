@@ -19,7 +19,6 @@ busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/python/exbind/.open_
 busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/scilab/exbind/.open_file.cde"
 
 busybox mount -o bind /dev $MNT/dev
-busybox mount -t devpts devpts $MNT/dev/pts
 busybox mount -t sysfs sysfs $MNT/sys
 
 busybox  chroot  $MNT /bin/bash -c "echo 1 > /proc/sys/vm/drop_caches"
@@ -29,6 +28,7 @@ busybox  chroot  $MNT /bin/bash -c "rm /var/run/apache2.pid"
 busybox  chroot  $MNT /bin/bash -c "service apache2 stop"
 busybox  chroot  $MNT /bin/bash -c "service apache2 start"
 busybox  chroot  $MNT /bin/bash -c "rm /tmp/.X1-*" 
+busybox  chroot  $MNT /bin/bash -c "mount /dev/pts" 
 busybox  chroot  $MNT /bin/bash -c "nohup Xvfb :1 -screen 0 640x480x24 -ac < /dev/null > Xvfb.out 2> Xvfb.err &"
 busybox  chroot  $MNT /bin/bash -c "shellinaboxd --localhost-only -t -s /:www-data:www-data:/:true &"
 

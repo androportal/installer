@@ -11,7 +11,6 @@ then
 mkdir -p $MNT
 fi
 
-busybox mount -t devpts devpts $MNT/dev/pts
 busybox mount -t proc proc $MNT/proc
 busybox mount -t sysfs sysfs $MNT/sys 
 
