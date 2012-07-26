@@ -27,8 +27,7 @@ allPaths     = ['/tmp/cbin',
                 '/tmp/cperror',
                 '/tmp/1.py',
                 '/var/www/html/scilab/tmp/1.err',
-                '/var/www/html/scilab/tmp/1.cde',
-                '/var/www/html/scilab/tmp/plot.cde']
+                '/var/www/html/scilab/tmp/1.cde']
 
 allSavePaths = ['/tmp/csave',
                 '/tmp/cpsave',
@@ -46,6 +45,8 @@ system("touch /var/www/html/c/exbind/.open_file.c && chmod 777 -R /var/www/html/
 system("touch /var/www/html/cpp/exbind/.open_file.cpp && chmod 777 -R /var/www/html/cpp/exbind/")
 system("touch /var/www/html/python/exbind/.open_file.py && chmod 777 -R /var/www/html/python/exbind/")
 system("touch /var/www/html/scilab/exbind/.open_file.cde && chmod 777 -R /var/www/html/scilab/exbind/")
+
+guiCodePath = '/var/www/html/scilab/tmp/plot.cde'
 
 for eachList in allSavePaths, allCodePaths:
     for thatDir in eachList:
@@ -76,10 +77,10 @@ def returnCommand():
             elif((checkPath == allPaths[6]) and path.getsize(checkPath)):
                 command = commonCommand + "'scilab -nogui -nb -f %s'" %(checkPath)
                 break
-            elif(checkPath == allPaths[7]):
-                command = ''
-                checkPath = '/root/sb_manage.py'
-                break
+            #elif(checkPath == allPaths[7]):
+             #   command = ''
+              #  checkPath = '/root/sb_manage.py'
+               # break
                 
         else:
             command = ''
@@ -111,7 +112,7 @@ def executeCommand():
         system("rm /var/www/html/saveflag")
 
     #elif((pathAvailable not in allPaths) and checkSBemptyPageRunning()):
-    if((pathAvailable is allPaths[7]) and checkSBemptyPageRunning()):
+    if(path.isfile(guiCodePath) and (pathAvailable not in allPaths) and checkSBemptyPageRunning()):
         system("killall -s 9 shellinaboxd")
         sleep(0.2)
         Popen(blankCommand,shell=True, stdout=PIPE)
