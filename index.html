@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>APL (Aakash Programming Lab) by androportal</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>APL (Aakash Programming Lab)</h1>
+        <p>Contain system related scripts and html files</p>
+
+        <p class="view"><a href="https://github.com/androportal/init_scripts">View the Project on GitHub <small>androportal/init_scripts</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/androportal/init_scripts/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/androportal/init_scripts/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/androportal/init_scripts">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p>Please read this document till the end before to proceed for actual
+installation</p>
+
+<h2>Prerequisite</h2>
+
+<ul>
+<li>Make sure your device is connected to wifi network.</li>
+<li>Note down the device's IP-address.</li>
+<li>The best case would be to give a static IP-address to the
+device.</li>
+</ul><h2>Installation</h2>
+
+<p>Make sure following file are in the same directory from where you run
+<code>install.sh</code> file</p>
+
+<ul>
+<li>install.sh</li>
+<li>default.prop</li>
+<li>aakash.sh</li>
+<li>init.rc</li>
+<li>linux.tar.gz</li>
+<li>tar</li>
+<li>MD5CHECK</li>
+<li>APL.apk </li>
+</ul><p>Open the terminal and change to the directory where all the above
+files exist and type::</p>
+
+<p>bash install.sh </p>
+
+<p>for example::</p>
+
+<p>bash install.sh 10.42.0.13</p>
+
+<p>and follow the instructions which appears on the terminal.</p>
+
+<h2>Note</h2>
+
+<ul>
+<li>Please make sure that you give the same IP-address at the second
+time you run <code>install.sh</code>
+</li>
+<li>You need to <code>turn ON</code> the device manually</li>
+</ul><h2>What the script actually does?</h2>
+
+<p><em>Less</em></p>
+
+<p>Aakash Programming Language, APL for short, is a web based front end
+to four programming languages C, C++, Python and Scilab. In
+the backend, we run a webserver in a <code>chroot'd</code> environment. The
+<code>chroot</code> environment is a custom made GNU/Linux distribution without any
+'Xserver'. Instead of having a 'Xserver' which is high on both CPU and
+memory, we use a X virtual framebuffer called <code>Xvfb</code>. <code>Xvfb</code> is low on
+both CPU and memory and requires no dedicated display hardware for
+graphical display. All display of graphs in APL is done using <code>Xvfb</code>.</p>
+
+<p><em>More</em></p>
+
+<p>The 'chroot' environment exist in the directory called <code>linux</code> which
+is in the directory <code>/data/local/</code> of the device. The first step is
+to make the path <code>/data/local/</code> writable, for this purpose the
+script makes backup of file <code>default.prop</code> from the devices to the
+working directory of host system and pushes a modified version of
+<code>default.prop</code> in <code>/</code> of the device. The device needs a reboot for
+the changes to take effect.</p>
+
+<p>The second step is to copy a tarball <code>linux.tar.gz</code> to the same
+location <code>/data/local/</code> of the device and untar it. The script also
+copies a binary <code>tar</code> file which does the work of extracting a
+tarball. Once this is done, we have an <code>chroot</code> environment
+ready. The hierarchy of <code>/data/local/linux/</code> is same as any other
+GNU/Linux distribution, but completely inactive with 'no' web-server and
+graphical support.</p>
+
+<p>The mounting of file-systems such as <code>/proc</code>, <code>/sys</code> and
+<code>/dev/pts/</code> is done by another bash script <code>aakash.sh</code> which also
+takes care of initiating a webserver every time the device is turned
+ON. <code>aakash.sh</code> also sets an display environment by initiating an
+virtual framebuffer environment using <code>Xvfb</code>. <code>aakash.sh</code> script
+is called by Android's <code>init.rc</code> file at boot time.</p>
+
+<ul>
+<li>
+<p>below lines in <code>init.rc</code> calls <code>aakash.sh</code>::</p>
+
+<pre><code>   service myscript /data/local/aakash.sh
+   oneshot
+</code></pre>
+</li>
+</ul><p>Once all the files and directories are in place, <code>install.sh</code> script
+does the work of cleanup. This will remove all temporary file created
+at the time of installation and lock the device back by updating the 
+original <code>default.prop</code>.
+For more details, please refer respective bash scripts.</p>
+
+<p>Please mail us for any further query:</p>
+
+<p><a href="mailto:srikant@fossee.in">srikant@fossee.in</a></p>
+
+<p><a href="mailto:isachin@iitb.ac.in">isachin@iitb.ac.in</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/androportal">androportal</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
