@@ -4,16 +4,16 @@ from time import sleep
 from sys import exit
 from subprocess import Popen, PIPE
 
-kill   = ['cbin', 'c.cgi',
-          'cpbin', 'cpp.cgi',
-          'python.cgi',
-          'scilex', 'scilab.cgi']
+kill   = ['cbin', 'c.py',
+          'cpbin', 'cpp.py',
+          'python.py',
+          'scilex', 'scilab.py']
 
 remove = ['/tmp/1.c', '/tmp/cerror', '/tmp/cbin',
           '/tmp/1.cpp', '/tmp/cperror', '/tmp/cpbin',
           '/tmp/1.py',
           '/var/www/html/scilab/tmp/1.cde', '/var/www/html/scilab/tmp/1.err',
-          '/var/www/html/scilab/tmp/plot.cde'
+          '/var/www/html/scilab/tmp/plot.cde',
           '/var/www/html/flag']
 
 

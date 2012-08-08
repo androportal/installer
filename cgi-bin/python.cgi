@@ -16,8 +16,6 @@ system("killall -s INT scilab.cgi");
 system("killall -s INT c.cgi");
 system("killall -s INT cpp.cgi");
 
-#system("killall -o 2s python.cgi");
-
 system("rm /var/www/html/flag");
 system("rm /tmp/pysave/*.py");
 system("rm /tmp/1.cpp /tmp/cpbin /tmp/cperror");
@@ -39,7 +37,8 @@ my $results;
 
 
 if($flag_save1==1)
-        {system("/bin/cp /tmp/1.py /tmp/pysave/$filename1.py");}
+        {system("/bin/cp /tmp/1.py /tmp/pysave/$filename1.py");
+         exit 1;}
 
 
 while(1)

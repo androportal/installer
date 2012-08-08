@@ -42,7 +42,8 @@ my $results;
 
 
 if($flag_save1==1)
-        {system("/bin/cp /tmp/1.cpp /tmp/cpsave/$filename1.cpp");}
+        {system("/bin/cp /tmp/1.cpp /tmp/cpsave/$filename1.cpp");
+        exit 1;}
 
 if($flag_save1==0)
     	{system("g++ -w $codefile -o $binary 2> $errorfile");

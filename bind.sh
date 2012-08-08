@@ -14,7 +14,8 @@ FLAG=1
 while [ $FLAG -eq 1 ]
 do
     
-    while [ $(pgrep com.aakash.lab | wc -l) -eq 1 ]
+    #while [ $(pgrep com.aakash.lab | wc -l) -eq 1 ]
+    while [ $(ps|busybox grep com.aakash.lab |busybox wc -l) -eq 1 ]
     do
 	
 	if [ ! -d ${SDCARD} ] || [ ! -d ${WWW} ] || [ ! -d ${EG} ]

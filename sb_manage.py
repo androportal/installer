@@ -11,9 +11,11 @@ from time import sleep
 from subprocess import Popen, PIPE
 from commands import getstatusoutput
 import json
+import signal
 
 #Default time stamp at boot time
 previousTimeStamp = [1.0]
+
 system('rm /tmp/cperror /tmp/cerror /tmp/*bin /tmp/1.py /var/www/html/scilab/tmp/*')
 
 commonCommand = 'shellinaboxd --localhost-only -t -s /:www-data:www-data:/:'
@@ -116,6 +118,7 @@ def executeCommand():
         system("killall -s 9 shellinaboxd")
         sleep(0.2)
         Popen(blankCommand,shell=True, stdout=PIPE)
+        print "i'm in scilab gui no sb page running place"
         print pathAvailable
 
 

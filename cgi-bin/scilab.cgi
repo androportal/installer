@@ -9,21 +9,29 @@ open (CMD,"$scilabcgi|");
      my $returnVal=<CMD>;
      close CMD;
 if($returnVal > 1)
-{exit 1};
+{  
+#system("for i in `pgrep scilab.cgi|sort -r|tail -n+2`; do kill -9 $i; done");
+    exit 1};
 
 my $scilex="pgrep scilex|wc -l";
 open (CMD,"$scilab|");
      my $returnVal=<CMD>;
      close CMD;
 if($returnVal > 1)
-{exit 1};
+{
+#system("killall -s INT scilex");
+#system("for i in `pgrep scilex|sort -r|tail -n+2`; do kill -9 $i; done");
+    exit 1};
 
 my $scilab="pgrep scilab|wc -l";
 open (CMD,"$scilab|");
      my $returnVal=<CMD>;
      close CMD;
 if($returnVal > 1)
-{exit 1};
+{
+ #system("killall -s INT scilab");
+#system("for i in `pgrep scilab|sort -r|tail -n+2`; do kill -9 $i; done");
+    exit 1};
 
 
 
@@ -106,7 +114,7 @@ sub guimode{
 
 while(1)
 {
-    if(-z "/var/www/html/flag"|| -s $imagepath)
+    if(-z "/var/www/html/flag" || -s $imagepath)
   {      
     my $output=join("",@data);
 	$output =~ s/exit\(\);//g;
@@ -136,7 +144,6 @@ sub noguimode{
 	print CODE $incode;
 	print CODE "\nexit();\ncatch\nmode(-1);\n			[error_message,error_number,line,fun]=lasterror(%t);\n";
 	print CODE "ukm=file(\'open\',\'$errorfile\');\nwrite(ukm,error_message);\nfile(\'close\',ukm);\n";
-	print CODE "\nend;";
 	print CODE "\nend;\nexit();";
 	close CODE;
 
