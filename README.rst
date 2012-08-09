@@ -25,7 +25,7 @@ Clone this branch by typing,
    git clone -b froyo-obsolete git@github.com:androportal/installer.git
 
 
-and download ``linux.tar.gz`` form `here <http://tinyurl.com/8ddsjt3>`_
+and download ``linux.tar.gz`` from `here <http://tinyurl.com/8ddsjt3>`_
 
 Installation
 ------------
