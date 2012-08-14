@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/bash 
 
 # ---- global variable ----
-declare ARG_COUNT=$#
-declare IP=$1
+ declare ARG_COUNT=$#
+# declare IP=$1
 
 declare TAR_FILE="linux.tar.gz"
 declare UNINSTALL_APK="com.aakash.lab"
@@ -16,28 +16,6 @@ declare MD5FILE=$(cat MD5CHECK | cut -d " " -f 1 -)
 declare SET_DATE=$(date +%Y.%m.%d-%H:%M:%S)
 # -------------------------
 
-function valid_ip()
-{
-    # ref: http://www.linuxjournal.com/content/validating-ip-address-bash-script
-
-    local  ip=$1
-    local  stat=1
-
-    if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
-        OIFS=$IFS
-        IFS='.'
-        ip=($ip)
-	IFS=$OIFS
-        [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 \
-            && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
-        stat=$?
-    fi
-    if [ $stat -ne 0 ];
-	then
-	echo "invalid IP-Address: $IP"
-	exit 0
-    fi
-}
 
 function sanity_check()
 {
@@ -206,13 +184,47 @@ function connect_device()
     fi
 }
 
+function connect_dev()
+{
+    echo "processing $IP"
+}
+
+function valid_ip()
+{
+    # ref: http://www.linuxjournal.com/content/validating-ip-address-bash-script
+
+    local  ip=$IP
+    local  stat=1
+
+    if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+        OIFS=$IFS
+        IFS='.'
+        ip=($ip)
+	IFS=$OIFS
+        [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 \
+            && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
+        stat=$?
+    fi
+    
+    if [ $stat -ne 0 ];
+    then
+	echo "invalid IP-Address: $IP"
+	exit 0
+    else
+	connect_dev $IP > log-${IP} & 
+    fi
+}
+
 # __init__
-if [ "$ARG_COUNT" -ne 1 ];
+if [ "$ARG_COUNT" -lt 1 ];
 then
     echo "Usage: $0 <IP-address>"
     exit 0
 else
-    valid_ip $IP
-    connect_device
+    for IP in $@
+    do 
+	valid_ip $IP
+    done
+#    connect_device
 fi
 
