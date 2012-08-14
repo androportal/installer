@@ -17,10 +17,9 @@ Make sure following file are in the same directory from where you run
 ``install.sh`` file
 
 - install.sh
-- default.prop
+- bind.sh
 - aakash.sh
-- init.rc
-- linux.tar.gz
+- linux.tar.gz 
 - tar
 - MD5CHECK
 - APL.apk 
