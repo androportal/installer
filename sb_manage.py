@@ -77,7 +77,7 @@ def returnCommand():
                 command = commonCommand + "'python %s'" %(checkPath)
                 break
             elif((checkPath == allPaths[6]) and path.getsize(checkPath)):
-                command = commonCommand + "'scilab -nogui -nb -f %s'" %(checkPath)
+                command = commonCommand + "'/scilab-5.4.minimal/bin/scilab -nogui -nb -f %s'" %(checkPath)
                 break
             #elif(checkPath == allPaths[7]):
              #   command = ''
