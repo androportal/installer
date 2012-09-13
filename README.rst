@@ -1,34 +1,37 @@
-============
-INSTALLATION
-============
+======
+README
+======
 
------------
-Prerequsite
------------
-Android sdk need to be installed and ``adb`` command should be in Linux binary path.
+-------------------------------------------
+Installation of APL(Aakash Programming Lab)
+-------------------------------------------
 
-------------------------------
-Steps to install APL on Aakash
-------------------------------
+Download the latest version of .. _apl.tar.gz: http://goo.gl/06KwR (170MB approx)
+and untar it into root of your internal or external sdcard.
+This will produce a file ``apl.img`` of around 700MB or less.
+Remove the ``apl.tar.gz`` from your sdcard, if any.
+Then install ``APL.apk``, ``shutdown`` your device and ``start`` the device again.
 
-1. First enable ``USB DEBUGGING`` in Aakash tablet. To do so, goto ``settings`` -> ``Developers options``
-   (scroll down the left panel to find developer option in settings), and enable ``USB Debugging``.
+Now locate ``APL`` (green) icon in your android menu, select it to choose
+your programming language preference. 
 
-#. Connect micro USB cable to Aakash and Laptop.
+You can optionally check ``help`` inside option menu of each programming environment
+for detailed user manual and language reference.
 
-#. Open a terminal in your Linux machine.
 
-#. ``cd`` to ``APL`` directory.
+---------------------
+Uninstallation of APL
+---------------------
 
-#. Issue command::
+Locate ``Aakash Programming Lab(APL)`` in `settings -> Apps` and uninstall.
+Restart the device and then remove the ``apl.img`` from your sdcard.
 
-        $ sudo bash install.sh
-
-   That's all. This process will take approximately 15 minutes. Device will reboot at the end.
 
 -------
-CAUTION
+Caution
 -------
-Ensure that USB cable is attached properly through out the installation.
 
+Ensure around 700MB space in your sdcard for installation. 
+Do not remove ``apl.img`` while app is in use.
+Follow the ``uninstall`` procedure strictly. 
 

@@ -1,6 +1,5 @@
 #!/system/bin/busybox sh
-
-sh /data/local/aakash.sh
+sh /data/local/aakash.sh &
 
 echo "do preinstall job"
 BUSYBOX="/system/bin/busybox"
@@ -14,7 +13,7 @@ if [ ! -e /data/system.notfirstrun ]; then
 #	$BUSYBOX cp /mnt/nanda/vendor/initlogo.rle /
 	$BUSYBOX cp /mnt/nanda/vendor/system/build.prop /system/
 	$BUSYBOX cp /mnt/nanda/vendor/system/media/bootanimation.zip /system/media/
-        $BUSYBOX cp /mnt/nanda/vendor/system/media/shu.zip /system/media/
+    $BUSYBOX cp /mnt/nanda/vendor/system/media/shu.zip /system/media/
 	$BUSYBOX cp /mnt/nanda/vendor/system/media/heng.zip /system/media/
 	$BUSYBOX cp /mnt/nanda/vendor/system/usr/keylayout/*.kl /system/usr/keylayout/
 	sync
