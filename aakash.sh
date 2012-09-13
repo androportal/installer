@@ -54,12 +54,12 @@ do
             	    busybox mkdir -p ${WWW}/scilab/image   
         	fi
 
-        	busybox  chroot  $MNT /bin/bash -c "mkdir /proc"
+#        	busybox  chroot  $MNT /bin/bash -c "mkdir /proc"
         	busybox mount -t proc proc $MNT/proc
-        	busybox  chroot  $MNT /bin/bash -c "mkdir /sys"
-        	busybox  chroot  $MNT /bin/bash -c "mkdir -p /dev/pts"
+#        	busybox  chroot  $MNT /bin/bash -c "mkdir /sys"
+#        	busybox  chroot  $MNT /bin/bash -c "mkdir -p /dev/pts"
 #        	busybox  chroot  $MNT /bin/bash -c "chown -R www-data.www-data /var/www/"
-        	busybox  chroot  $MNT /bin/bash -c "chmod -R a+x /usr/lib/cgi-bin"
+#        	busybox  chroot  $MNT /bin/bash -c "chmod -R a+x /usr/lib/cgi-bin"
 
 	
         	busybox mount -o bind /dev $MNT/dev
