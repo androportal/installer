@@ -13,7 +13,7 @@ The untar process will produce a file ``apl.img`` of around 700MB or less.
 
 Remove the ``apl.tar.gz`` from your sdcard, if any. Do not remove ``apl.img``.
 
-Then install ``APL.apk``, ``shutdown`` your device and ``start`` it device again.
+Then install ``APL.apk``, ``shutdown`` your device and ``start`` it again.
 
 At this point, installation is over.
 
