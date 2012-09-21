@@ -23,6 +23,9 @@ do
         	    busybox mount -o bind /dev $MNT/dev
             	busybox mount -t sysfs sysfs $MNT/sys
                 busybox  chroot  $MNT /bin/bash -c "mount /dev/pts" 
+
+        	    busybox  chroot  $MNT /bin/bash -c "chown -R www-data.www-data /var/www/"
+            	busybox  chroot  $MNT /bin/bash -c "chmod -R a+x /usr/lib/cgi-bin"
                 
                 # cleaning and starting apache 
         	    busybox  chroot  $MNT /bin/bash -c "rm /dev/null"
@@ -30,10 +33,14 @@ do
             	busybox  chroot  $MNT /bin/bash -c "rm /var/run/apache2.pid"
             	busybox  chroot  $MNT /bin/bash -c "service apache2 stop"
         	    busybox  chroot  $MNT /bin/bash -c "service apache2 start"
+
+                busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/c/exbind/.open_file.c"
+                busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/cpp/exbind/.open_file.cpp"
+                busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/python/exbind/.open_file.py"
+                busybox  chroot  $MNT /bin/bash -c "chmod 777 /var/www/html/scilab/exbind/.open_file.cde"
         	    
                 # running shellinaboxd, sb_manage and Xvfb
             	busybox  chroot  $MNT /bin/bash -c "shellinaboxd --localhost-only -t -s /:www-data:www-data:/:true &"
-            	busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/sb_manage.py &>'/dev/null'&"
         	    busybox  chroot  $MNT /bin/bash -c "rm /tmp/.X0-*" 
             	busybox  chroot  $MNT /bin/bash -c "nohup Xvfb :0 -screen 0 640x480x24 -ac < /dev/null > Xvfb.out 2> Xvfb.err &"
             }
@@ -48,7 +55,7 @@ do
 
             elif [ -f /mnt/extsd/apl.img ] && [ $SD -eq 1 ]
             then
-                busybox mount -o loop /extsd/apl.img /data/local/linux 
+                busybox mount -o loop /mnt/extsd/apl.img /data/local/linux 
                 startServices
                 SD=0
             fi
@@ -60,8 +67,6 @@ do
 #        	busybox  chroot  $MNT /bin/bash -c "mkdir /proc"
 #        	busybox  chroot  $MNT /bin/bash -c "mkdir /sys"
 #        	busybox  chroot  $MNT /bin/bash -c "mkdir -p /dev/pts"
-#        	busybox  chroot  $MNT /bin/bash -c "chown -R www-data.www-data /var/www/"
-#        	busybox  chroot  $MNT /bin/bash -c "chmod -R a+x /usr/lib/cgi-bin"
 #        	busybox  chroot  $MNT /bin/bash -c "echo 1 > /proc/sys/vm/drop_caches"
         	
 
@@ -87,6 +92,9 @@ do
             	    busybox mkdir -p ${SDCARD}/scilab/image
             	    busybox mkdir -p ${WWW}/scilab/image   
         	fi
+            
+            
+            busybox  chroot  /data/local/linux /bin/bash -c "nohup python /root/sb_manage.py &>'/dev/null'&"
 
             busybox mount -o bind ${SDCARD}/c/code ${WWW}/c/code
         	busybox mount -o bind ${SDCARD}/cpp/code ${WWW}/cpp/code

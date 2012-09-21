@@ -2,18 +2,16 @@
 README
 ======
 
-
-
 -------------------------------------------
 Installation of APL(Aakash Programming Lab)
 -------------------------------------------
 
 Download the latest version of  `apl.tar.gz <http://goo.gl/06KwR/>`_
-(170MB approx) and untar it into root of your internal or external sdcard.
+(190MB approx) and untar it into root of your internal or external sdcard.
 
 The untar process will produce a file ``apl.img`` of around 700MB or less.
 
-Remove the ``apl.tar.gz`` from your sdcard, if any.
+Remove the ``apl.tar.gz`` from your sdcard, if any. Do not remove ``apl.img``.
 
 Then install ``APL.apk``, ``shutdown`` your device and ``start`` it device again.
 
@@ -26,9 +24,26 @@ You can optionally check ``help`` inside option menu of each programming environ
 for detailed user manual and language reference.
 
 
----------------------
-Uninstallation of APL
----------------------
+-----------------------------
+Alternate Installation of APL
+-----------------------------
+
+Clone this repo or download the ``tar`` or ``zip``.
+
+Download the latest version of `apl.tar.gz <http://goo.gl/06KwR/>`_ and keep it in the same 
+``installer`` directory. 
+
+Now ``cd`` to installer directory and execute 
+
+::
+
+    sudo bash install.sh
+
+The device will reboot on success. That's all, don't repeat any step from previous method.
+
+--------------------------------------------
+Uninstallation of APL for both above methods
+--------------------------------------------
 
 Locate ``Aakash Programming Lab(APL)`` in `settings -> Apps` and uninstall.
 
