@@ -6,7 +6,7 @@ README
 Installation of APL(Aakash Programming Lab)
 -------------------------------------------
 
-Download the latest version of  `apl.tar.gz <http://goo.gl/06KwR/>`_
+Download the latest version of  `apl.tar.gz <https://doc-10-2c-docs.googleusercontent.com/docs/securesc/vcofu46mdng9msma1fldalett8arq1l8/h5rah584idvf6qusrh3o09p3phugoa5i/1348221600000/13143508901814035990/13143508901814035990/0B6KB6Sak5C4gLUxfaG5UOGlFT0E?e=download>`_
 (190MB approx) and untar it into root of your internal or external sdcard.
 
 The untar process will produce a file ``apl.img`` of around 700MB or less.
@@ -30,8 +30,7 @@ Alternate Installation of APL
 
 Clone this repo or download the ``tar`` or ``zip``.
 
-Download the latest version of `apl.tar.gz <http://goo.gl/06KwR/>`_ and keep it in the same 
-``installer`` directory. 
+Download the latest version of `apl.tar.gz <https://doc-10-2c-docs.googleusercontent.com/docs/securesc/vcofu46mdng9msma1fldalett8arq1l8/h5rah584idvf6qusrh3o09p3phugoa5i/1348221600000/13143508901814035990/13143508901814035990/0B6KB6Sak5C4gLUxfaG5UOGlFT0E?e=download>`_ and keep it in the same ``installer`` directory. 
 
 Now ``cd`` to installer directory and execute 
 
