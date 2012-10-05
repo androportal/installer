@@ -1,0 +1,42 @@
+
+Aakash installer version 1.0 
+Copyright (C) 2012 IIT Bombay.
+Web site: http://github.com/androportal/installer
+
+'aakash' installer comes with ABSOLUTELY NO WARRANTY. This is free software, and you
+are welcome to redistribute it under certain conditions. See the GNU
+General Public Licence for details.
+    
+'aakash' is an installation tool for android devices, specially made for Aakash tablets,
+this application will install apks and push data to android. For more details please visit
+above website and view README
+    
+
+USAGE:
+    
+* This will start the application, and will ask for your sudo password:
+
+   $ aakash     
+    
+* Same as above but without ftp sever check, force install(-f):
+
+   $ aakash -f
+    
+* Only get the MAC address(-m):
+
+   $ aakash -m
+    
+* Only push apk's, skip the data(-a):
+
+   $ aakash -a
+    
+* Show this help(-h):
+
+   $ aakash -h  
+    
+* Show full offline help in web browser(-hb) with your choice of browser :
+
+   $ aakash -hb firefox
+
+   
+For any bugs or suggestions please contact developer on github.
