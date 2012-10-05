@@ -17,7 +17,7 @@ rsync_cmd = "sudo rsync -ra --delete " + curlftpfs_mount_dir + rsync_dest_dir
 umount_dir = "sudo umount " + curlftpfs_mount_dir + " &> /dev/null"
 # unset proxy didn't work, need to find some better solution
 unset_proxy = "unset http_proxy https_proxy ftp_proxy"
-
+mac_addr = ''
 
 list_of_apk_dirs = ['aakash/clicker/apk',
                     'aakash/proximity/apk',
@@ -37,8 +37,15 @@ def headerText():
     os.system('clear')
     print '\n'
     print '----------------------------------------------------------'
-    print '|      Aakash  Installation  Log     (Version 0.1)       |' 
+    print '|      Aakash  Installation  Log     (Version 1.0)       |' 
     print '----------------------------------------------------------\n\n'
+
+
+def deviceFailureText():
+    print "      ------------------------------------------"
+    print "      |        *** NO DEVICE FOUND ***         |"
+    print "      | Connect aakash and wait for 10 seconds |"
+    print "      ------------------------------------------"
 
 
 def statusText():
@@ -47,9 +54,19 @@ def statusText():
     print "\t     ------------------------------\n"
 
 
+def footerText():
+    print "\n\n========================================================================================"
+    print "|If you wish to stop this program type 'Control + c' to exit                           |"
+    print "|There are more options available, check aakash installer help by typing: aakash -h    |"
+    print "========================================================================================"
+    print "\n\n========================================================================================================"
+    print "|   Installation complete. Remove the USB cable and connect another device, don't cancel this program  |" 
+    print "========================================================================================================"
+
+
 def help():
     os.system('cat /usr/share/aakash/help.txt')
-   
+
 
 def getStdout(command):
     return Popen(command, shell=True, stdout=PIPE).stdout.read().strip('\n')
@@ -96,7 +113,8 @@ def installAPKs():
 
 def checkAndroidDirExistenceIfNotCreate(path):
     # As 'path' is full path so need to separate source & destination
-    path[-1]
+    if '/' in path[0]:
+        os.system("adb shell busybox mkdir -p %s" %(path[1]))
 
 
 def pushData():
@@ -141,17 +159,14 @@ def detectDevice():
             break    
         else:
             headerText()
-            print "      ------------------------------------------"
-            print "      |        *** NO DEVICE FOUND ***         |"
-            print "      | Connect aakash and wait for 10 seconds |"
-            print "      ------------------------------------------"
+            deviceFailureText()
 
 
 def executeAll(*exceptThese):
     listFunctions = ['detectDevice()', 'checkDeviceMacAddress()',
-                     'rsyncWithServer()', 'installAPKs()', 'pushData()']
+                     'rsyncWithServer()', 'installAPKs()',
+                     'pushData()','footerText()']
     exceptThese = list(exceptThese)
-    print exceptThese
     if len(exceptThese) is 0:
         for eachFunction in listFunctions:
             exec(eachFunction)
@@ -160,6 +175,12 @@ def executeAll(*exceptThese):
             listFunctions.remove(eachSkipFunction)                            
         for eachFunction in listFunctions:
             exec(eachFunction)
+
+def waitForNewDevice():
+    while True:
+        time.sleep(1)
+        if 'unknown' in getStdout(adb_cmd):
+            break
 
 
 
@@ -174,13 +195,16 @@ if __name__=="__main__":
     elif '-h' in args:
         help()
     elif '-hb' in args:
-        if int(len(args)) is 2:
+        if int(len(args)) is 3:
             os.system("%s /usr/share/aakash/help.html" %(args[args.index('-hb') + 1]))
         else:
             print "Missing browser name. Example:"
             print "   $ aakash -hb firefox"
     elif int(len(args)) is 1:
-        executeAll()
+        while True:
+            executeAll()
+            waitForNewDevice()
+            time.sleep(1)
     else:
         print "Wrong option. Please see help(-h)"
         print "   $ aakash -h"

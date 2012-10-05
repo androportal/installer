@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.8.1: http://docutils.sourceforge.net/" />
-<title>FULL DESCRIPTION</title>
+<title>README</title>
 <style type="text/css">
 
 /*
@@ -314,8 +314,8 @@ ul.auto-toc {
 </style>
 </head>
 <body>
-<div class="document" id="full-description">
-<h1 class="title">FULL DESCRIPTION</h1>
+<div class="document" id="readme">
+<h1 class="title">README</h1>
 
 <div class="section" id="what-is-this-app-for">
 <h1>What is this app for ?</h1>
@@ -340,11 +340,7 @@ for x86 machines</li>
 <h1>How to install ?</h1>
 <p>The alien way:</p>
 <pre class="literal-block">
-sudo apt-get install curlftpfs rsync
-mv aakash-installer.py aakash
-chmod a+x aakash adb
-sudo cp aakash /bin
-sudo cp adb /bin
+$ bash install.sh
 </pre>
 <p>A easier way would be using <tt class="docutils literal">deb</tt> package, which contains all the dependencies
 <tt class="docutils literal">(curlftpfs, rsync, adb)</tt> except ia-32 libs</p>
@@ -442,11 +438,12 @@ the next step would be to tell the installer application that where you want to
 push them in <tt class="docutils literal">aakash tablet(for eg: /mnt/sdcard/clicker)</tt>.</p>
 </li>
 <li><p class="first">To do so, create a plain text file and name it as <tt class="docutils literal">path</tt>. Open this file in your favorite
-editor and add your source file/directory name and destination path(aakash's path).</p>
+editor and add your source file/directory name and destination path(aakash's path). The only
+precaution you must take is to add a trailing <tt class="docutils literal">/</tt> at the end of the directory name.</p>
 <p>Sample content of <tt class="docutils literal">path</tt> file as per our previous example</p>
 <pre class="literal-block">
-data-directory,/mnt/sdcard/
-myfile,/data/local/
+data-directory/,/mnt/sdcard/data-directory/
+myfile,/data/local/myfile
 </pre>
 <p>That's it, save this file and copy it to <tt class="docutils literal">/srv/ftp/aakash/clicker/data/</tt></p>
 <pre class="literal-block">

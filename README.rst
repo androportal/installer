@@ -31,11 +31,7 @@ How to install ?
 
 The alien way::
 
-       sudo apt-get install curlftpfs rsync
-       mv aakash-installer.py aakash
-       chmod a+x aakash adb
-       sudo cp aakash /bin
-       sudo cp adb /bin
+        $ bash install.sh
 
 A easier way would be using ``deb`` package, which contains all the dependencies
 ``(curlftpfs, rsync, adb)`` except ia-32 libs
@@ -130,12 +126,13 @@ How to upload my apps on the ftp server(for aakash developers only) ?
    push them in ``aakash tablet(for eg: /mnt/sdcard/clicker)``.
    
 #. To do so, create a plain text file and name it as ``path``. Open this file in your favorite 
-   editor and add your source file/directory name and destination path(aakash's path).
+   editor and add your source file/directory name and destination path(aakash's path). The only
+   precaution you must take is to add a trailing ``/`` at the end of the directory name. 
 
    Sample content of ``path`` file as per our previous example ::
 
-        data-directory,/mnt/sdcard/
-        myfile,/data/local/
+        data-directory/,/mnt/sdcard/data-directory/
+        myfile,/data/local/myfile
 
     
    That's it, save this file and copy it to ``/srv/ftp/aakash/clicker/data/`` ::
