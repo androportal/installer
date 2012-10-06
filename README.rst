@@ -76,6 +76,10 @@ Application flags:
 
         $ aakash -h  
 
+#. Add new ftp site(add) ::
+
+        $ aakash -add ftp://address/aakash
+        
 #. Show full offline help in web browser(-hb) with your choice of browser ::
 
         $ aakash -hb firefox
@@ -86,7 +90,7 @@ How to upload my apps on the ftp server(for aakash developers only) ?
 
 1. Let us assume we have a ftp URL as : ``ftp://127.0.0.1/aakash`` on web browser
 
-#. Inside our Linux ftp server the ``aakash`` directory is located at ``/srv/ftp/aakash``
+#. Keep ``aakash`` directory in the root of your ftp setup, say ``/srv/ftp/aakash``
 
 #. Please create a directory of your application name inside ``/srv/ftp/aakash``
 
@@ -103,16 +107,24 @@ How to upload my apps on the ftp server(for aakash developers only) ?
 #. If your application doesn't require any ``data`` then you may not create the ``data``
    directory.
 
+#. Now create a plane text file ``path_of_apks_and_data`` in ``aakash`` directory reflecting
+    your application's apk and data file path(if any). Sample file content for above example is 
+    shown ::
+    
+        aakash/clicker/apk,aakash/clicker/data
+
+#. Add more applications to ``path_of_apks_and_data`` in separate lines
+
 #. Now copy your ``apk(s)`` to ``/srv/ftp/aakash/clicker/apk`` and make sure you name them
    according to some version(not necessary but recommended) ::
 
         cp Clicker.apk /srv/ftp/aakash/clicker/apk
 
    Now if your application doens't need any data files then you can stop here. You have 
-   successfully uploaded your ``apk`` on to ftp server.
+   successfully uploaded your ``apk`` on to ftp server. Now others can install it remotely.
 
 
-#. Now with ``data``. To put your data files(xml, videos, scripts etc) in 
+#. Now with ``data``. To put your data files(eg: xml, videos, scripts etc) in 
    ``/srv/ftp/aakash/clicker/data`` follow the previous approach, i.e copy them to 
    data directory first. Please remember ``data`` can be a file or a directory, the procedure
    will be same for both ::

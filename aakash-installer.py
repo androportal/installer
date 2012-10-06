@@ -9,9 +9,8 @@ from subprocess import Popen, PIPE
 
 mac_cmd = "sudo adb shell ip link show wlan0 | busybox awk '/ether/ {print $2}'"
 adb_cmd = "sudo adb get-state"
-ftp_addr = " ftp://127.0.0.1/aakash/ "
 curlftpfs_mount_dir = " /mnt/aakash "
-curlftpfs_cmd = "sudo curlftpfs " + ftp_addr + curlftpfs_mount_dir + " &> /dev/null"
+curlftpfs_cmd = "sudo curlftpfs  %s"  + curlftpfs_mount_dir + " &> /dev/null"
 rsync_dest_dir = " ~/Desktop/ "
 rsync_cmd = "sudo rsync -ra --delete " + curlftpfs_mount_dir + rsync_dest_dir
 umount_dir = "sudo umount " + curlftpfs_mount_dir + " &> /dev/null"
@@ -19,7 +18,7 @@ umount_dir = "sudo umount " + curlftpfs_mount_dir + " &> /dev/null"
 unset_proxy = "unset http_proxy https_proxy ftp_proxy"
 mac_addr = ''
 
-list_of_apk_dirs = ['aakash/clicker/apk',
+"""list_of_apk_dirs = ['aakash/clicker/apk',
                     'aakash/proximity/apk',
                     'aakash/blender/apk', 
                     'aakash/apl/apk', 
@@ -32,7 +31,7 @@ list_of_data_dirs = ['aakash/clicker/data',
                      'aakash/apl/data', 
                      'aakash/others/data']
 
-
+"""
 def headerText():
     os.system('clear')
     print '\n'
@@ -69,32 +68,67 @@ def help():
 
 
 def getStdout(command):
+    # returns stdout of command as string 
     return Popen(command, shell=True, stdout=PIPE).stdout.read().strip('\n')
 
 
 def rsyncWithServer():
-    print "-->  Contacting %s for any update" %(ftp_addr) +'\n'
     os.system(unset_proxy)
+    if not os.path.isfile(os.getenv('HOME') + '/.aakash'):
+        print "\n\n It seems you are running this program for first time. We need to know"
+        print "your preferred ftp site to sync. Run"
+        print "\n\t $ aakash -add ftp://your-ftp-site/aakash\n"
+        print "Contact your system admin if you don't have one."
+        sys.exit(0)
+    else:
+        ftp = open(os.getenv('HOME') + '/.aakash')
+        ftp_addr = ftp.read().strip('\n')
+    print "-->  Trying to contact %s for any update" %(ftp_addr) +'\n'
     os.system(umount_dir)  # Just in case if some thing is already mounted
-    os.system("mkdir %s %s &> /dev/null" %(curlftpfs_mount_dir, rsync_dest_dir))
+    os.system("sudo mkdir -p %s %s &> /dev/null" %(curlftpfs_mount_dir, rsync_dest_dir))
     # A test must be done whether ftp is running or not, if not rsync should not take place
-    # as it will remove the destination directory
-    if os.system(curlftpfs_cmd):
-        print "Error connecting to ftp server, please check your connection."
+    # as it will empty the ~/Desktop/aakash directory which is in sync with /mnt/aakash
+    # if error code (0 means no error)
+    if os.system(curlftpfs_cmd %(ftp_addr)):
+        print "Error connecting to ftp server, please check your URL & connection."
         print "If you are very sure that there is nothing to sync from server and you want to "
         print "force install the apps then use 'aakash' with '-f'(force install) flag:\n"
         print "$ aakash -f"
+        print "\nNot recommended."
+        print "\nQuitting application !"
         sys.exit(0)
-    os.system(rsync_cmd)
+    if os.system(rsync_cmd):
+        print "\n\nftp server detected, but failed to sync. Please install 'rsync' and try again !"
+        print "Quitting application !"
+        sys.exit(0)
     os.system(umount_dir)
-    os.system('sync')
-    print "-->  Syncing with server done, all latest apps present in ~/Desktop/aakash/ \n"
+    os.system('sudo sync')
+    print "--> Connected. Syncing with server done, all latest apps present in ~/Desktop/aakash/ \n"
     time.sleep(4)
 
+
+def updateListOfServerDirs():
+    allServerPaths = []
+    os.chdir(os.getenv('HOME') + '/Desktop/aakash/')
+    if os.path.isfile('path_of_apks_and_data'):
+        reader = csv.reader(open('path_of_apks_and_data', 'r'))
+        for row in reader:
+            allServerPaths.append(row)
+    else:
+        print '\n\nError, ' + os.getenv('HOME') + '/Desktop/aakash/path_of_apks_and_data' + " not found !"
+        print "This is a rare occassion, ask your system admin to set aakash in the root of the ftp server."
+        print "\nQuitting application !"
+        sys.exit(0)
+    return allServerPaths       
 
 def installAPKs():
     # converting relative paths to absolute for present user
     fullPathofAPK = []
+    list_of_apk_dirs = []
+    # allServerPaths contain a array of paths of both apk and data dirs of ~/Desktop/aakash
+    allServerPaths = updateListOfServerDirs()
+    for eachPath in allServerPaths:
+        list_of_apk_dirs.append(eachPath[0])
     for eachdir in list_of_apk_dirs:
         fullPathofAPK.append(os.getenv('HOME') + '/Desktop/' + eachdir)
     for eachFullPath in fullPathofAPK:
@@ -112,13 +146,19 @@ def installAPKs():
 
 
 def checkAndroidDirExistenceIfNotCreate(path):
-    # As 'path' is full path so need to separate source & destination
+    # As 'path' is full path so need to separate source & destination from csv row
     if '/' in path[0]:
         os.system("adb shell busybox mkdir -p %s" %(path[1]))
 
 
 def pushData():
+    # Will read 'path' file and push data to android
     fullPathofData = []
+    list_of_data_dirs = []
+    # allServerPaths contain a array of paths of both apk and data dirs of ~/Desktop/aakash
+    allServerPaths = updateListOfServerDirs()
+    for eachPath in allServerPaths:
+        list_of_data_dirs.append(eachPath[1])
     for eachdir in list_of_data_dirs:
         fullPathofData.append(os.getenv('HOME') + '/Desktop/' + eachdir)
     for eachDataPath in fullPathofData:
@@ -131,6 +171,7 @@ def pushData():
                 for row in reader:
                     # Must create dir if not present (make it default way)
                     checkAndroidDirExistenceIfNotCreate(row)
+                    # on success os.system returns 0, so checking it state
                     if os.system("sudo adb push %s &> /dev/null" %('\t'.join(row))):
                         print "-->  Can't push file to destination, please check\
                                     if device is connected properly\n"
@@ -140,6 +181,7 @@ def pushData():
 
 
 def checkDeviceMacAddress():
+    # Read the mac address with the mac_cmd functions
     mac_addr = getStdout(mac_cmd)
     if int(len(mac_addr)) is 17:
         headerText()
@@ -155,6 +197,8 @@ def checkDeviceMacAddress():
 def detectDevice():
     while True:
         time.sleep(0.5)
+        # Checking the adb output for the following string, when detected the welcome
+        # header text is handled in checkDeviceMacAddress function, just to save lines
         if 'device' in getStdout(adb_cmd):
             break    
         else:
@@ -163,49 +207,74 @@ def detectDevice():
 
 
 def executeAll(*exceptThese):
+    # All apps in default order present in listFunctions[], this
+    # allows user to skip one or functions based on args
     listFunctions = ['detectDevice()', 'checkDeviceMacAddress()',
                      'rsyncWithServer()', 'installAPKs()',
                      'pushData()','footerText()']
+    # Converting the tuple into list                     
     exceptThese = list(exceptThese)
+    # If length is 0 means no args i.e run aakash in default mode
     if len(exceptThese) is 0:
         for eachFunction in listFunctions:
             exec(eachFunction)
     else:
+    # Checking functions in exceptThese & removing them    
         for eachSkipFunction in exceptThese:
             listFunctions.remove(eachSkipFunction)                            
+    # Executing new listFunctions with removed functions        
         for eachFunction in listFunctions:
             exec(eachFunction)
 
 def waitForNewDevice():
+    # Checking whether the cable is unplugged by waiting for adb response
     while True:
         time.sleep(1)
         if 'unknown' in getStdout(adb_cmd):
             break
 
 
-
-if __name__=="__main__":
+def  processArgs():
     args = sys.argv
+    # All flags are resloved here, '-f' for force install, skipping the server sync
     if '-f' in args:
         executeAll('rsyncWithServer()')
+    # Skipping all, will show only mac address    
     elif '-m' in args:
         executeAll('rsyncWithServer()','installAPKs()', 'pushData()')
+    # Skip sending huge data again, only installs the apks    
     elif '-a' in args:
         executeAll('pushData()')
+    # Quick help on commands    
     elif '-h' in args:
         help()
+    # Show detailed offline help in web browser
     elif '-hb' in args:
         if int(len(args)) is 3:
             os.system("%s /usr/share/aakash/help.html" %(args[args.index('-hb') + 1]))
         else:
             print "Missing browser name. Example:"
             print "   $ aakash -hb firefox"
+    elif '-add' in args:
+        if int(len(args)) is 3 and args[-1].startswith('ftp://') and args[-1].endswith('/aakash'):
+            ftp_url = open(os.getenv('HOME') + '/.aakash','w')
+            ftp_url.write(args[-1])
+            ftp_url.close()
+            print "\nURL updated successfully.\nIf you want to modify URL again, repeat the previous procedure."
+            print "\nNow run 'aakash' again." 
+        else:
+            print "\n\nNot a valid url, please check again."
+            sys.exit(0)
+    # The main execute loop, default application starts here        
     elif int(len(args)) is 1:
         while True:
             executeAll()
             waitForNewDevice()
-            time.sleep(1)
     else:
         print "Wrong option. Please see help(-h)"
         print "   $ aakash -h"
 
+
+
+if __name__=="__main__":
+    processArgs()   

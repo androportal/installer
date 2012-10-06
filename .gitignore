@@ -1,7 +1,0 @@
-# .gitignore
-
-# chroot image
-apl.img
-
-# backup files
-*~

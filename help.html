@@ -385,6 +385,11 @@ $ aakash -a
 $ aakash -h
 </pre>
 </li>
+<li><p class="first">Add new ftp site(add)</p>
+<pre class="literal-block">
+$ aakash -add ftp://address/aakash
+</pre>
+</li>
 <li><p class="first">Show full offline help in web browser(-hb) with your choice of browser</p>
 <pre class="literal-block">
 $ aakash -hb firefox
@@ -397,7 +402,7 @@ $ aakash -hb firefox
 <ol class="arabic">
 <li><p class="first">Let us assume we have a ftp URL as : <tt class="docutils literal"><span class="pre">ftp://127.0.0.1/aakash</span></tt> on web browser</p>
 </li>
-<li><p class="first">Inside our Linux ftp server the <tt class="docutils literal">aakash</tt> directory is located at <tt class="docutils literal">/srv/ftp/aakash</tt></p>
+<li><p class="first">Keep <tt class="docutils literal">aakash</tt> directory in the root of your ftp setup, say <tt class="docutils literal">/srv/ftp/aakash</tt></p>
 </li>
 <li><p class="first">Please create a directory of your application name inside <tt class="docutils literal">/srv/ftp/aakash</tt></p>
 </li>
@@ -416,15 +421,27 @@ mkdir -p /srv/ftp/aakash/clicker/data
 <li><p class="first">If your application doesn't require any <tt class="docutils literal">data</tt> then you may not create the <tt class="docutils literal">data</tt>
 directory.</p>
 </li>
+<li><dl class="first docutils">
+<dt>Now create a plane text file <tt class="docutils literal">path_of_apks_and_data</tt> in <tt class="docutils literal">aakash</tt> directory reflecting</dt>
+<dd><p class="first">your application's apk and data file path(if any). Sample file content for above example is
+shown</p>
+<pre class="last literal-block">
+aakash/clicker/apk,aakash/clicker/data
+</pre>
+</dd>
+</dl>
+</li>
+<li><p class="first">Add more applications to <tt class="docutils literal">path_of_apks_and_data</tt> in separate lines</p>
+</li>
 <li><p class="first">Now copy your <tt class="docutils literal">apk(s)</tt> to <tt class="docutils literal">/srv/ftp/aakash/clicker/apk</tt> and make sure you name them
 according to some version(not necessary but recommended)</p>
 <pre class="literal-block">
 cp Clicker.apk /srv/ftp/aakash/clicker/apk
 </pre>
 <p>Now if your application doens't need any data files then you can stop here. You have
-successfully uploaded your <tt class="docutils literal">apk</tt> on to ftp server.</p>
+successfully uploaded your <tt class="docutils literal">apk</tt> on to ftp server. Now others can install it remotely.</p>
 </li>
-<li><p class="first">Now with <tt class="docutils literal">data</tt>. To put your data files(xml, videos, scripts etc) in
+<li><p class="first">Now with <tt class="docutils literal">data</tt>. To put your data files(eg: xml, videos, scripts etc) in
 <tt class="docutils literal">/srv/ftp/aakash/clicker/data</tt> follow the previous approach, i.e copy them to
 data directory first. Please remember <tt class="docutils literal">data</tt> can be a file or a directory, the procedure
 will be same for both</p>

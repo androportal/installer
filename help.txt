@@ -33,7 +33,11 @@ USAGE:
 * Show this help(-h):
 
    $ aakash -h  
-    
+
+* Add new ftp site(add):
+
+   $ aakash -add ftp://address/aakash
+   
 * Show full offline help in web browser(-hb) with your choice of browser :
 
    $ aakash -hb firefox
