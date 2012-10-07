@@ -97,13 +97,18 @@ def rsyncWithServer():
         print "\nNot recommended."
         print "\nQuitting application !"
         sys.exit(0)
+    else:
+        print "\n-->  Server found and ready for sync."
     if os.system(rsync_cmd):
         print "\n\nftp server detected, but failed to sync. Please install 'rsync' and try again !"
         print "Quitting application !"
         sys.exit(0)
+    else:
+        print "\n-->  Syncing in progress. Keep patience. If you are syncing for first time it may take a while."
+        
     os.system(umount_dir)
     os.system('sudo sync')
-    print "--> Connected. Syncing with server done, all latest apps present in ~/Desktop/aakash/ \n"
+    print "\n-->  Syncing with server done, all latest apps present in ~/Desktop/aakash/ \n"
     time.sleep(4)
 
 
@@ -141,6 +146,8 @@ def installAPKs():
                     if os.system("sudo adb install -r %s &> /dev/null" %(apks)):
                         print "-->  Can't install %s, please check if\
                                device is connected properly\n" %(apks)
+                        print "Quitting !"       
+                        sys.exit(0)       
                     else:
                         print "-->  Installed successfully %s\n" %(apks)
 
@@ -173,8 +180,10 @@ def pushData():
                     checkAndroidDirExistenceIfNotCreate(row)
                     # on success os.system returns 0, so checking it state
                     if os.system("sudo adb push %s &> /dev/null" %('\t'.join(row))):
-                        print "-->  Can't push file to destination, please check\
-                                    if device is connected properly\n"
+                        print "-->  Can't push file to destination,"
+                        print "     please check if you have sufficient space in destination !\n"
+                        print "     Quitting application !"
+                        sys.exit(0)
                     else:
                         print "-->  Pushed %s to %s successfully \n" %(row[0], row[1])
 
@@ -192,7 +201,10 @@ def checkDeviceMacAddress():
         statusText()
         print '-->  **NOTE :  To view MAC address of the device just enable WiFi in Aakash,'
         print '          connection to WiFi is not required.\n'
-
+    # Setting time
+    os.environ['TZ'] = 'Asia/Kolkata'
+    os.system("adb shell date -s %s" %(time.strftime("%Y%m%d.%H%M%S")))
+    print "-->  Setting system time, but can not fix the time zone, it is still pointed to CST !\n"
 
 def detectDevice():
     while True:

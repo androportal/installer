@@ -104,14 +104,17 @@ How to upload my apps on the ftp server(for aakash developers only) ?
         mkdir -p /srv/ftp/aakash/clicker/apk
         mkdir -p /srv/ftp/aakash/clicker/data
 
+
 #. If your application doesn't require any ``data`` then you may not create the ``data``
    directory.
 
-#. Now create a plane text file ``path_of_apks_and_data`` in ``aakash`` directory reflecting
+
+#.  Now create a plain text file ``path_of_apks_and_data`` in ``aakash`` directory reflecting
     your application's apk and data file path(if any). Sample file content for above example is 
     shown ::
     
         aakash/clicker/apk,aakash/clicker/data
+
 
 #. Add more applications to ``path_of_apks_and_data`` in separate lines
 
