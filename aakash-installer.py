@@ -98,7 +98,7 @@ def rsyncWithServer():
         print "\nQuitting application !"
         sys.exit(0)
     else:
-        print "\n-->  Server found and ready for sync."
+        print "-->  Server found and ready for sync."
     if os.system(rsync_cmd):
         print "\n\nftp server detected, but failed to sync. Please install 'rsync' and try again !"
         print "Quitting application !"
@@ -203,8 +203,8 @@ def checkDeviceMacAddress():
         print '          connection to WiFi is not required.\n'
     # Setting time
     os.environ['TZ'] = 'Asia/Kolkata'
-    os.system("adb shell date -s %s" %(time.strftime("%Y%m%d.%H%M%S")))
-    print "-->  Setting system time, but can not fix the time zone, it is still pointed to CST !\n"
+    os.system("adb shell date -s %s &> /dev/null" %(time.strftime("%Y%m%d.%H%M%S")))
+    print "-->  Fixed system time, but can not fix the time zone.\n" 
 
 def detectDevice():
     while True:
