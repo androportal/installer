@@ -4,34 +4,20 @@ import os
 import csv
 import sys
 import time
+import subprocess
 from subprocess import Popen, PIPE
-
 
 mac_cmd = "sudo adb shell ip link show wlan0 | busybox awk '/ether/ {print $2}'"
 adb_cmd = "sudo adb get-state"
 curlftpfs_mount_dir = " /mnt/aakash "
-curlftpfs_cmd = "sudo curlftpfs  %s"  + curlftpfs_mount_dir + " &> /dev/null"
+curlftpfs_cmd = "sudo curlftpfs  %s"  + curlftpfs_mount_dir 
 rsync_dest_dir = " ~/Desktop/ "
 rsync_cmd = "sudo rsync -ra --delete " + curlftpfs_mount_dir + rsync_dest_dir
-umount_dir = "sudo umount " + curlftpfs_mount_dir + " &> /dev/null"
+umount_dir = "sudo umount " + curlftpfs_mount_dir 
 # unset proxy didn't work, need to find some better solution
 unset_proxy = "unset http_proxy https_proxy ftp_proxy"
 mac_addr = ''
 
-"""list_of_apk_dirs = ['aakash/clicker/apk',
-                    'aakash/proximity/apk',
-                    'aakash/blender/apk', 
-                    'aakash/apl/apk', 
-                    'aakash/others/apk']
-
-
-list_of_data_dirs = ['aakash/clicker/data',
-                     'aakash/proximity/data',
-                     'aakash/blender/data', 
-                     'aakash/apl/data', 
-                     'aakash/others/data']
-
-"""
 def headerText():
     os.system('clear')
     print '\n'
@@ -73,7 +59,6 @@ def getStdout(command):
 
 
 def rsyncWithServer():
-    os.system(unset_proxy)
     if not os.path.isfile(os.getenv('HOME') + '/.aakash'):
         print "\n\n It seems you are running this program for first time. We need to know"
         print "your preferred ftp site to sync. Run"
@@ -84,12 +69,13 @@ def rsyncWithServer():
         ftp = open(os.getenv('HOME') + '/.aakash')
         ftp_addr = ftp.read().strip('\n')
     print "-->  Trying to contact %s for any update" %(ftp_addr) +'\n'
-    os.system(umount_dir)  # Just in case if some thing is already mounted
-    os.system("sudo mkdir -p %s %s &> /dev/null" %(curlftpfs_mount_dir, rsync_dest_dir))
+    subprocess.call(umount_dir,stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True) 
+    subprocess.call("sudo mkdir -p %s %s" %(curlftpfs_mount_dir, rsync_dest_dir),\
+                    stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
     # A test must be done whether ftp is running or not, if not rsync should not take place
     # as it will empty the ~/Desktop/aakash directory which is in sync with /mnt/aakash
     # if error code (0 means no error)
-    if os.system(curlftpfs_cmd %(ftp_addr)):
+    if subprocess.call(curlftpfs_cmd %(ftp_addr),stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True):
         print "Error connecting to ftp server, please check your URL & connection."
         print "If you are very sure that there is nothing to sync from server and you want to "
         print "force install the apps then use 'aakash' with '-f'(force install) flag:\n"
@@ -99,14 +85,14 @@ def rsyncWithServer():
         sys.exit(0)
     else:
         print "-->  Server found and ready for sync."
-    if os.system(rsync_cmd):
+    if subprocess.call(rsync_cmd,stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True):
         print "\n\nftp server detected, but failed to sync. Please install 'rsync' and try again !"
         print "Quitting application !"
         sys.exit(0)
     else:
         print "\n-->  Syncing in progress. Keep patience. If you are syncing for first time it may take a while."
         
-    os.system(umount_dir)
+    subprocess.call(umount_dir,stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
     os.system('sudo sync')
     print "\n-->  Syncing with server done, all latest apps present in ~/Desktop/aakash/ \n"
     time.sleep(4)
@@ -143,7 +129,8 @@ def installAPKs():
             print "----------------------\n"
             for apks in os.listdir("."):
                 if apks.endswith(".apk"):
-                    if os.system("sudo adb install -r %s &> /dev/null" %(apks)):
+                    if subprocess.call("sudo adb install -r %s" %(apks),\
+                                        stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True):
                         print "-->  Can't install %s, please check if\
                                device is connected properly\n" %(apks)
                         print "Quitting !"       
@@ -155,7 +142,8 @@ def installAPKs():
 def checkAndroidDirExistenceIfNotCreate(path):
     # As 'path' is full path so need to separate source & destination from csv row
     if '/' in path[0]:
-        os.system("adb shell busybox mkdir -p %s" %(path[1]))
+        subprocess.call("adb shell busybox mkdir -p %s" %(path[1]),\
+                        stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
 
 
 def pushData():
@@ -179,7 +167,7 @@ def pushData():
                     # Must create dir if not present (make it default way)
                     checkAndroidDirExistenceIfNotCreate(row)
                     # on success os.system returns 0, so checking it state
-                    if os.system("sudo adb push %s &> /dev/null" %('\t'.join(row))):
+                    if subprocess.call("sudo adb push %s" %('\t'.join(row)),stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True):
                         print "-->  Can't push file to destination,"
                         print "     please check if you have sufficient space in destination !\n"
                         print "     Quitting application !"
@@ -203,7 +191,8 @@ def checkDeviceMacAddress():
         print '          connection to WiFi is not required.\n'
     # Setting time
     os.environ['TZ'] = 'Asia/Kolkata'
-    os.system("adb shell date -s %s &> /dev/null" %(time.strftime("%Y%m%d.%H%M%S")))
+    subprocess.call("adb shell date -s %s" %(time.strftime("%Y%m%d.%H%M%S")),\
+                     stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
     print "-->  Fixed system time, but can not fix the time zone.\n" 
 
 def detectDevice():
