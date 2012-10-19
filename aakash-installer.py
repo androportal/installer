@@ -45,7 +45,7 @@ def footerText():
     print "|There are more options available, check aakash installer help by typing: aakash -h    |"
     print "========================================================================================"
     print "\n\n========================================================================================================"
-    print "|   Installation complete. Remove the USB cable and connect another device, don't cancel this program  |" 
+    print "|   Task complete. Remove the USB cable and connect another device, don't cancel this program          |" 
     print "========================================================================================================"
 
 
@@ -176,24 +176,33 @@ def pushData():
                         print "-->  Pushed %s to %s successfully \n" %(row[0], row[1])
 
 
+def macIdLog(mac_addr):
+    pass
 
 def checkDeviceMacAddress():
     # Read the mac address with the mac_cmd functions
+    print "-->  Turning on Wifi, please wait... \n"	
+    subprocess.call("adb shell svc wifi enable", 
+		    stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+    time.sleep(5)	
     mac_addr = getStdout(mac_cmd)
     if int(len(mac_addr)) is 17:
-        headerText()
-        statusText()
         print '-->  MAC address of the device :  ' + mac_addr + '\n'
+	macIdLog(mac_addr)
     else:
         headerText()
         statusText()
-        print '-->  **NOTE :  To view MAC address of the device just enable WiFi in Aakash,'
+        print '-->  **NOTE :  Automatic Wifi detection failed, to view MAC address of the device just enable WiFi in Aakash,'
         print '          connection to WiFi is not required.\n'
     # Setting time
     os.environ['TZ'] = 'Asia/Kolkata'
     subprocess.call("adb shell date -s %s" %(time.strftime("%Y%m%d.%H%M%S")),\
                      stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
     print "-->  Fixed system time, but can not fix the time zone.\n" 
+    subprocess.call("adb shell svc wifi disable", 
+		    stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
+    print "-->  Wifi tunrd off\n"	
+
 
 def detectDevice():
     while True:
@@ -201,6 +210,8 @@ def detectDevice():
         # Checking the adb output for the following string, when detected the welcome
         # header text is handled in checkDeviceMacAddress function, just to save lines
         if 'device' in getStdout(adb_cmd):
+            headerText()
+            statusText()
             break    
         else:
             headerText()
@@ -227,6 +238,7 @@ def executeAll(*exceptThese):
         for eachFunction in listFunctions:
             exec(eachFunction)
 
+
 def waitForNewDevice():
     # Checking whether the cable is unplugged by waiting for adb response
     while True:
@@ -242,7 +254,9 @@ def  processArgs():
         executeAll('rsyncWithServer()')
     # Skipping all, will show only mac address    
     elif '-m' in args:
-        executeAll('rsyncWithServer()','installAPKs()', 'pushData()')
+	while True:
+            executeAll('rsyncWithServer()','installAPKs()', 'pushData()')
+	    waitForNewDevice()
     # Skip sending huge data again, only installs the apks    
     elif '-a' in args:
         executeAll('pushData()')
