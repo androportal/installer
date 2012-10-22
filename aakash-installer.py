@@ -17,6 +17,11 @@ umount_dir = "sudo umount " + curlftpfs_mount_dir
 # unset proxy didn't work, need to find some better solution
 unset_proxy = "unset http_proxy https_proxy ftp_proxy"
 mac_addr = ''
+logFileName = ''
+flag_state = 1
+mac_count = 0
+
+
 
 def headerText():
     os.system('clear')
@@ -41,8 +46,8 @@ def statusText():
 
 def footerText():
     print "\n\n========================================================================================"
-    print "|If you wish to stop this program type 'Control + c' to exit                           |"
-    print "|There are more options available, check aakash installer help by typing: aakash -h    |"
+    print "| If you wish to stop this program type 'Control + c' to exit                          |"
+    print "| There are more options available, check aakash installer help by typing: aakash -h   |"
     print "========================================================================================"
     print "\n\n========================================================================================================"
     print "|   Task complete. Remove the USB cable and connect another device, don't cancel this program          |" 
@@ -177,7 +182,26 @@ def pushData():
 
 
 def macIdLog(mac_addr):
-    pass
+    global logFileName, flag_state, mac_count
+    # this will run only first time   
+    if flag_state:
+        logFileName = time.strftime("%a_%d_%b_%Y_%H_%M_%S") + '.csv'
+        flag_state = 0
+    with open(os.getenv('HOME') + '/Desktop/' + logFileName, 'a') as csvfile:
+        macLog = csv.writer(csvfile)
+        if mac_addr in open(os.getenv('HOME') + '/Desktop/' + logFileName).read():
+            print "\n-->  ERROR ERROR ERROR !!!"
+            print "     MAC Address already present, don't repeat devices,"
+            print "     this instance is not updated in csv file\n"
+        else:    
+            macLog.writerow([mac_addr])
+            print "-->  MAC address updated successfully in %s !\n" \
+            %(os.getenv('HOME') + '/Desktop/' + logFileName)
+            #making a copy for worst case scenario
+            mac_count = mac_count + 1
+            print "-->  Total MAC addresses updated in csv file so far : %s\n" %(mac_count)
+            os.system("sudo cp %s /usr/share/aakash" %(os.getenv('HOME') +\
+            '/Desktop/' + logFileName)) 
 
 def checkDeviceMacAddress():
     # Read the mac address with the mac_cmd functions
