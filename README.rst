@@ -10,6 +10,7 @@ What is this app for ?
 
 * Install all apps and data files to respective directories
 
+* Detect the MAC address of the device and update the same in a ``csv`` file on the Desktop
 
 Requires
 --------
@@ -38,6 +39,8 @@ A easier way would be using ``deb`` package, which contains all the dependencies
 
 The link of ``deb`` file will be uploaded soon
 
+Also note that for offline installation you don't require ``curlftpfs`` and ``rsync``
+
 
 How to use this ?
 -----------------
@@ -60,7 +63,7 @@ Application flags:
 
         $ aakash     
        
-#. Same as above but without ftp sever check, force install(-f) ::
+#. Same as above but without ftp sever check, force install(-f) or offline install::
 
         $ aakash -f
               
@@ -90,7 +93,11 @@ How to upload my apps on the ftp server(for aakash developers only) ?
 
 1. Let us assume we have a ftp URL as : ``ftp://127.0.0.1/aakash`` on web browser
 
-#. Keep ``aakash`` directory in the root of your ftp setup, say ``/srv/ftp/aakash``
+#. Keep ``aakash`` directory in the root of your ftp setup, say ``/srv/ftp/aakash``, in case of 
+   offline installation setup create a directory ``aakash`` on the ``Desktop``, it should look 
+   like ``/home/<your username>/Desktop/aakash``, in following example replace ``/srv/ftp/aakash``
+   with ``/home/<your username>/Desktop/aakash`` if you wish to continue offline setup.
+   Also remember you should run as ``aakash -f`` in case of offline installation.
 
 #. Please create a directory of your application name inside ``/srv/ftp/aakash``
 
@@ -111,7 +118,7 @@ How to upload my apps on the ftp server(for aakash developers only) ?
 
 #.  Now create a plain text file ``path_of_apks_and_data`` in ``aakash`` directory reflecting
     your application's apk and data file path(if any). Sample file content for above example is 
-    shown ::
+    shown, this will be same for both online and offline installation ::
     
         aakash/clicker/apk,aakash/clicker/data
 
@@ -149,13 +156,15 @@ How to upload my apps on the ftp server(for aakash developers only) ?
         data-directory/,/mnt/sdcard/data-directory/
         myfile,/data/local/myfile
 
-    
+   
+   Note that you have to mention same ``data-directory/`` and ``myfile`` in destination path.
    That's it, save this file and copy it to ``/srv/ftp/aakash/clicker/data/`` ::
 
         cp path /srv/ftp/aakash/clicker/data/
 
     At this point your ``/srv/ftp/aakash/clicker/data/`` directory contains 2 files
     (myfile, path) and one directory (data-directory/).
+
 
 #. Everytime you change your data file or directory you should also reflect it 
     in ``path`` file.
