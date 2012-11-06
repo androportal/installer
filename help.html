@@ -323,6 +323,7 @@ ul.auto-toc {
 <li>Will detect the device and show its MAC address for easy documentation</li>
 <li>Will auto sync with the ftp server for latest updated applications</li>
 <li>Install all apps and data files to respective directories</li>
+<li>Detect the MAC address of the device and update the same in a <tt class="docutils literal">csv</tt> file on the Desktop</li>
 </ul>
 </div>
 <div class="section" id="requires">
@@ -345,6 +346,7 @@ $ bash install.sh
 <p>A easier way would be using <tt class="docutils literal">deb</tt> package, which contains all the dependencies
 <tt class="docutils literal">(curlftpfs, rsync, adb)</tt> except ia-32 libs</p>
 <p>The link of <tt class="docutils literal">deb</tt> file will be uploaded soon</p>
+<p>Also note that for offline installation you don't require <tt class="docutils literal">curlftpfs</tt> and <tt class="docutils literal">rsync</tt></p>
 </div>
 <div class="section" id="how-to-use-this">
 <h1>How to use this ?</h1>
@@ -365,7 +367,7 @@ connection is required, turning <tt class="docutils literal">ON</tt> the WiFi is
 $ aakash
 </pre>
 </li>
-<li><p class="first">Same as above but without ftp sever check, force install(-f)</p>
+<li><p class="first">Same as above but without ftp sever check, force install(-f) or offline install:</p>
 <pre class="literal-block">
 $ aakash -f
 </pre>
@@ -402,7 +404,11 @@ $ aakash -hb firefox
 <ol class="arabic">
 <li><p class="first">Let us assume we have a ftp URL as : <tt class="docutils literal"><span class="pre">ftp://127.0.0.1/aakash</span></tt> on web browser</p>
 </li>
-<li><p class="first">Keep <tt class="docutils literal">aakash</tt> directory in the root of your ftp setup, say <tt class="docutils literal">/srv/ftp/aakash</tt></p>
+<li><p class="first">Keep <tt class="docutils literal">aakash</tt> directory in the root of your ftp setup, say <tt class="docutils literal">/srv/ftp/aakash</tt>, in case of
+offline installation setup create a directory <tt class="docutils literal">aakash</tt> on the <tt class="docutils literal">Desktop</tt>, it should look
+like <tt class="docutils literal"><span class="pre">/home/&lt;your</span> <span class="pre">username&gt;/Desktop/aakash</span></tt>, in following example replace <tt class="docutils literal">/srv/ftp/aakash</tt>
+with <tt class="docutils literal"><span class="pre">/home/&lt;your</span> <span class="pre">username&gt;/Desktop/aakash</span></tt> if you wish to continue offline setup.
+Also remember you should run as <tt class="docutils literal">aakash <span class="pre">-f</span></tt> in case of offline installation.</p>
 </li>
 <li><p class="first">Please create a directory of your application name inside <tt class="docutils literal">/srv/ftp/aakash</tt></p>
 </li>
@@ -423,7 +429,7 @@ directory.</p>
 </li>
 <li><p class="first">Now create a plain text file <tt class="docutils literal">path_of_apks_and_data</tt> in <tt class="docutils literal">aakash</tt> directory reflecting
 your application's apk and data file path(if any). Sample file content for above example is
-shown</p>
+shown, this will be same for both online and offline installation</p>
 <pre class="literal-block">
 aakash/clicker/apk,aakash/clicker/data
 </pre>
@@ -459,19 +465,15 @@ precaution you must take is to add a trailing <tt class="docutils literal">/</tt
 data-directory/,/mnt/sdcard/data-directory/
 myfile,/data/local/myfile
 </pre>
-<p>That's it, save this file and copy it to <tt class="docutils literal">/srv/ftp/aakash/clicker/data/</tt></p>
+<p>Note that you have to mention same <tt class="docutils literal"><span class="pre">data-directory/</span></tt> and <tt class="docutils literal">myfile</tt> in destination path.
+That's it, save this file and copy it to <tt class="docutils literal">/srv/ftp/aakash/clicker/data/</tt></p>
 <pre class="literal-block">
-    cp path /srv/ftp/aakash/clicker/data/
-
-At this point your ``/srv/ftp/aakash/clicker/data/`` directory contains 2 files
-(myfile, path) and one directory (data-directory/).
+cp path /srv/ftp/aakash/clicker/data/
 </pre>
+<p>At this point your <tt class="docutils literal">/srv/ftp/aakash/clicker/data/</tt> directory contains 2 files (myfile, path)
+and one directory (data-directory/)</p>
 </li>
-<li><dl class="first docutils">
-<dt>Everytime you change your data file or directory you should also reflect it</dt>
-<dd><p class="first last">in <tt class="docutils literal">path</tt> file.</p>
-</dd>
-</dl>
+<li><p class="first">Everytime you change your data file or directory you should also reflect it  in <tt class="docutils literal">path</tt> file</p>
 </li>
 </ol>
 <p>As <tt class="docutils literal">path</tt> file is a <tt class="docutils literal">csv</tt> file (comma separated file), so please do not add any

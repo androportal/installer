@@ -160,14 +160,15 @@ How to upload my apps on the ftp server(for aakash developers only) ?
    Note that you have to mention same ``data-directory/`` and ``myfile`` in destination path.
    That's it, save this file and copy it to ``/srv/ftp/aakash/clicker/data/`` ::
 
+
         cp path /srv/ftp/aakash/clicker/data/
 
-    At this point your ``/srv/ftp/aakash/clicker/data/`` directory contains 2 files
-    (myfile, path) and one directory (data-directory/).
+
+   At this point your ``/srv/ftp/aakash/clicker/data/`` directory contains 2 files (myfile, path)
+   and one directory (data-directory/)
 
 
-#. Everytime you change your data file or directory you should also reflect it 
-    in ``path`` file.
+#. Everytime you change your data file or directory you should also reflect it  in ``path`` file
 
 
 As ``path`` file is a ``csv`` file (comma separated file), so please do not add any 
