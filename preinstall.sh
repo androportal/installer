@@ -1,5 +1,6 @@
 #!/system/bin/busybox sh
-sh /data/local/aakash.sh &
+
+/system/bin/sh /data/local/aakash.sh 
 
 echo "do preinstall job"
 BUSYBOX="/system/bin/busybox"
