@@ -225,7 +225,7 @@ def checkDeviceMacAddress():
     print "-->  Fixed system time, but can not fix the time zone.\n" 
     subprocess.call("adb shell svc wifi disable", 
 		    stderr=subprocess.STDOUT, stdout=subprocess.PIPE, shell=True)
-    print "-->  Wifi tunrd off\n"	
+    print "-->  Wifi turned off\n"	
 
 
 def detectDevice():
