@@ -6,7 +6,7 @@ README
 What is this app for ?
 ----------------------
 
-Aakash Programming Lab(APL) is a simplified learning tool for C, Cpp, Python and Scilab 
+`Aakash <http://www.iitb.ac.in/AK/Aakash.htm>`_ Programming Lab(APL) is a simplified learning tool for C, Cpp, Python and Scilab 
 programming languages. It has a text editor to write code and terminal window to view output.
 It has options to save code to sdcard or load existing code from sdcard. Scilab can handle plots too.
 Each programming language has detailed inbuilt help(see our docs repository), starting from 
@@ -14,23 +14,20 @@ step by step instruction to use application and detailed programming language re
 to download the ``docs`` repository to find more on developer manual.
 A simple one page handout is `here <http://goo.gl/a6tRj>`_ .
 
+NB: This application is tested only on Aakash tablets, Others may use it at their own risk. 
 
 -------------------------------------------
 Installation of APL(Aakash Programming Lab)
 -------------------------------------------
 
-Please use ``alternate installation of APL`` for now.
+Download the latest version of apl image in ``tar`` or ``zip`` format. 
+`apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_ or `apl.img.zip <https://docs.google.com/file/d/0B6KB6Sak5C4gbTRiLXlJdDJ0TDQ/edit>`_
+ 
+The untar or unzip process of above file will produce ``apl.img`` of around 700MB or less on your computer. Copy
+``apl.img`` to sdcard(internal or external) of your Aakash tablet.
 
-Download the latest version of  `apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_
-(190MB approx) and untar it into root of your internal or external sdcard.
-
-The untar process will produce a file ``apl.img`` of around 700MB or less.
-
-Remove the ``apl.tar.gz`` from your sdcard, if any. Do not remove ``apl.img``.
-
-Then install ``APL.apk``, ``shutdown`` your device and ``start`` it again.
-
-At this point, installation is over.
+Then install `APLv1.0.apk <https://github.com/downloads/androportal/APL-apk/APL-v1.0.apk>`_ in your Aakash, ``shutdown``
+and ``start`` your Aakash to finish installation. 
 
 Now locate ``APL`` (green) icon in your android menu, select it to choose
 your programming language preference. 
@@ -39,21 +36,23 @@ You can optionally check ``help`` inside option menu of each programming environ
 for detailed user manual and language reference.
 
 
------------------------------
-Alternate Installation of APL
------------------------------
+-------------------------------------
+Alternate Installation process of APL
+-------------------------------------
 
-Clone this repo or download the ``tar`` or ``zip``.
+Download the ``tar`` or ``zip`` of this repository.
 
-Download the latest version of `apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_ and keep it in the same ``installer`` directory. 
+Download the latest version of `apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_ or 
+`apl.img.zip <https://docs.google.com/file/d/0B6KB6Sak5C4gbTRiLXlJdDJ0TDQ/edit>`_ and keep it in the same ``installer-ics`` directory in your Linux machine. 
 
-Now ``cd`` to installer directory and execute 
+Now ``cd`` to ``installer-ics`` directory and execute 
 
 ::
 
     sudo bash install.sh
 
 The device will reboot on success. That's all, don't repeat any step from previous method.
+
 
 --------------------------------------------
 Uninstallation of APL for both above methods
