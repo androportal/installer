@@ -20,9 +20,11 @@ NB: This application is tested only on Aakash tablets, Others may use it at thei
 Installation of APL(Aakash Programming Lab)
 -------------------------------------------
 
-Download the latest version of apl image in ``tar`` or ``zip`` format. 
-`apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_ or `apl.img.zip <https://docs.google.com/file/d/0B6KB6Sak5C4gbTRiLXlJdDJ0TDQ/edit>`_
+.. Download the latest version of apl image in ``tar`` or ``zip`` format. 
+.. `apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_ or `apl.img.zip <https://docs.google.com/file/d/0B6KB6Sak5C4gbTRiLXlJdDJ0TDQ/edit>`_
  
+Download the latest version of apl image in ``tar`` or ``zip`` format. 
+`apl.tar.gz <https://github.com/downloads/androportal/installer/apl.tar.gz>`_ or `apl.img.zip <https://github.com/downloads/androportal/installer/apl.img.zip>`_
 The untar or unzip process of above file will produce ``apl.img`` of around 700MB or less on your computer. Copy
 ``apl.img`` to sdcard(internal or external) of your Aakash tablet.
 
@@ -42,8 +44,11 @@ Alternate Installation process of APL
 
 Download the ``tar`` or ``zip`` of this repository.
 
-Download the latest version of `apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_ or 
-`apl.img.zip <https://docs.google.com/file/d/0B6KB6Sak5C4gbTRiLXlJdDJ0TDQ/edit>`_ and keep it in the same ``installer-ics`` directory in your Linux machine. 
+.. Download the latest version of `apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_ or 
+.. `apl.img.zip <https://docs.google.com/file/d/0B6KB6Sak5C4gbTRiLXlJdDJ0TDQ/edit>`_ 
+
+Download the latest version of `apl.tar.gz <https://github.com/downloads/androportal/installer/apl.tar.gz>`_ or
+`apl.img.zip <https://github.com/downloads/androportal/installer/apl.img.zip>`_ and keep it in the same ``installer-ics`` directory in your Linux machine. 
 
 Now ``cd`` to ``installer-ics`` directory and execute 
 
