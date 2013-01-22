@@ -16,9 +16,6 @@ A simple one page handout is `here <http://goo.gl/a6tRj>`_ .
 
 NB: This application is tested only on Aakash tablets, Others may use it at their own risk after suitable changes. 
 
-===========================================
-Installation of APL(Aakash Programming Lab)
-===========================================
 
 Simple and recommended installation procedure
 ---------------------------------------------
@@ -26,7 +23,7 @@ Simple and recommended installation procedure
 #. This process requires a working internet connection. If you're behind proxy, then set ``no proxy`` for 127.0.0.1 in your WiFi proxy settings.
    This is not required for normal direct internet connections
 
-#. Download the latest APL.apk from `here<https://raw.github.com/androportal/installer/ics/APL.apk>`_ and install it on your Aakash
+#. Download the latest APL.apk from `here <https://raw.github.com/androportal/installer/ics/APL.apk>`_ and install it on your Aakash
 
 #. Click on green color icon(labeled APL) in android menu and allow it to download the ``~180MB`` image file
 
