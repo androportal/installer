@@ -14,15 +14,25 @@ step by step instruction to use application and detailed programming language re
 to download the ``docs`` repository to find more on developer manual.
 A simple one page handout is `here <http://goo.gl/a6tRj>`_ .
 
-NB: This application is tested only on Aakash tablets, Others may use it at their own risk. 
+NB: This application is tested only on Aakash tablets, Others may use it at their own risk after suitable changes. 
 
--------------------------------------------
-Installation of APL(Aakash Programming Lab)
--------------------------------------------
 
-.. Download the latest version of apl image in ``tar`` or ``zip`` format. 
-.. `apl.tar.gz <https://docs.google.com/open?id=0B6KB6Sak5C4gLUxfaG5UOGlFT0E>`_ or `apl.img.zip <https://docs.google.com/file/d/0B6KB6Sak5C4gbTRiLXlJdDJ0TDQ/edit>`_
- 
+Simple and recommended installation procedure
+---------------------------------------------
+
+#. This process requires a working internet connection. If you're behind proxy, then set ``no proxy`` for 127.0.0.1 in your WiFi proxy settings.
+   This is not required for normal direct internet connections
+
+#. Download the latest APL.apk from `here <https://raw.github.com/androportal/installer/ics/APL.apk>`_ and install it on your Aakash
+
+#. Click on green color icon(labeled APL) in android menu and allow it to download the ``~180MB`` image file
+
+#. The download and uncompress process will take some while, you need to reboot the device to complete installation
+
+
+Alternate way of installation
+-----------------------------
+
 Download the latest version of apl image in ``tar`` or ``zip`` format. 
 `apl.tar.gz <https://github.com/downloads/androportal/installer/apl.tar.gz>`_ or `apl.img.zip <https://github.com/downloads/androportal/installer/apl.img.zip>`_
 The untar or unzip process of above file will produce ``apl.img`` of around 700MB or less on your computer. Copy
@@ -38,9 +48,9 @@ You can optionally check ``help`` inside option menu of each programming environ
 for detailed user manual and language reference.
 
 
--------------------------------------
-Alternate Installation process of APL
--------------------------------------
+-------------------------------------------------
+Yet another alternate Installation process of APL
+-------------------------------------------------
 
 Download the ``tar`` or ``zip`` of this repository.
 
