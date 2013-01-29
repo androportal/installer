@@ -1,7 +1,9 @@
 # .gitignore
 
 # chroot image
-apl.img
+*.img
+*.tar.gz
+*.pdf
 
 # backup files
 *~
