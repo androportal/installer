@@ -51,8 +51,8 @@ Alternate way of installation
    `apl.img.zip
    <https://github.com/downloads/androportal/installer/apl.img.zip>`_
    The untar or unzip process of above file will produce ``apl.img``
-   of around 700MB or less on your computer. Copy ``apl.img`` to
-   sdcard(internal or external) of your Aakash tablet.
+   of around 700MB or less on your computer. Copy ``apl.img`` to root of your
+   sdcard(internal or external). 
 
 #. Then install `APL.apk
    <https://github.com/androportal/installer/blob/ics/APL.apk>`_ in
