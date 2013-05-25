@@ -17,6 +17,8 @@ and detailed programming language reference. You may want to download
 the ``docs`` repository to find more on developer manual.  A simple
 one page handout is `here <http://goo.gl/a6tRj>`_ .
 
+You may want to check out our `youtube video. <http://www.youtube.com/watch?list=PLwgNlwaUyn2ndTumEkzaCtB7gRGFY9-pw&v=VJhDWef4Jjw&feature=player_detailpage#t=143s>`_
+
 NB: This application is tested only on Aakash tablets, others may use
 it at their own risk after suitable changes.
 
